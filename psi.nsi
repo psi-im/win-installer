@@ -142,7 +142,7 @@ InstallDirRegKey HKLM "Software\Affinix\${APPNAME}" ""
 !define MUI_FINISHPAGE_RUN "$INSTDIR\Psi.exe"
 !define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\Readme.txt"
 
-!define MUI_FINISHPAGE_LINK "Psi - Home page"
+!define MUI_FINISHPAGE_LINK "Click here to visit the Psi Homepage"
 !define MUI_FINISHPAGE_LINK_LOCATION "http://psi.affinix.com/"
 
 !define MUI_WELCOMEFINISHPAGE_BITMAP "${INSTALLER_SOURCE}\psi-l.bmp"
