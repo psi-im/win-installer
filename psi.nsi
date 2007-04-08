@@ -48,6 +48,7 @@
 
 !define LCAPPNAME "psi" ; lowercase APPNAME
 
+
 ; Version information for the installer executable
 VIAddVersionKey ProductName "${APPNAME}"
 VIAddVersionKey ProductVersion "${APPFULLVERSION}"
@@ -204,20 +205,6 @@ Section "!$LSTR_PSIBASE" SectionBase
   !insertmacro "CreateURL" "Psi - Forum" "http://psi.affinix.com/forums/"
   !insertmacro "CreateURL" "Psi - Documentation" "http://psi.affinix.com/psi_docs/"
 SectionEnd
-
-Section "Crystal Iconsets" SectionCrystalIconsets
-  ; Set Section properties
-  SetOutPath "$INSTDIR\iconsets\roster"
-  File "${INSTALLER_SOURCE}\psi_app\iconsets\roster\crystal_aim.jisp"
-  File "${INSTALLER_SOURCE}\psi_app\iconsets\roster\crystal_icq.jisp"
-  File "${INSTALLER_SOURCE}\psi_app\iconsets\roster\crystal_msn.jisp"
-  File "${INSTALLER_SOURCE}\psi_app\iconsets\roster\crystal_roster.jisp"
-  File "${INSTALLER_SOURCE}\psi_app\iconsets\roster\crystal_transport.jisp"
-  File "${INSTALLER_SOURCE}\psi_app\iconsets\roster\crystal_yahoo.jisp"
-  SetOutPath "$INSTDIR\iconsets\system"
-  File "${INSTALLER_SOURCE}\psi_app\iconsets\system\crystal_system.jisp"
-SectionEnd
-
 
 
 ; ********************************
@@ -450,16 +437,6 @@ Section Uninstall
   ; Delete self
   Delete "$INSTDIR\uninstall.exe"
 
-  ; Delete Crystal Iconsets
-  Delete "$INSTDIR\iconsets\roster\crystal_aim.jisp"
-  Delete "$INSTDIR\iconsets\roster\crystal_icq.jisp"
-  Delete "$INSTDIR\iconsets\roster\crystal_msn.jisp"
-  Delete "$INSTDIR\iconsets\roster\crystal_roster.jisp"
-  Delete "$INSTDIR\iconsets\roster\crystal_transport.jisp"
-  Delete "$INSTDIR\iconsets\roster\crystal_yahoo.jisp"
-  Delete "$INSTDIR\iconsets\system\crystal_system.jisp"
-  
-  
   ; Delete links
   Delete "$INSTDIR\Psi - Forum.url";
   Delete "$INSTDIR\Psi - Home page.url";
