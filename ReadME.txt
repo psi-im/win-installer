@@ -1,5 +1,5 @@
 ******************************************************************************
-   NSIS Installer Script for Psi 0.9.3
+   NSIS Installer Script for Psi 0.10
 
    Copyright © 2004-2005 Mircea Ionut Bardac (IceRAM)
      e-mail: dev@mircea.bardac.net
@@ -10,7 +10,7 @@
 
 ** Legal notice
   
-   psi.nsi - NSIS script for installing Psi 0.9.3
+   psi.nsi - NSIS script for installing Psi 0.10
    Copyright © 2004-2005 Mircea Ionut Bardac (IceRAM)
    
    This program is free software; you can redistribute it and/or
@@ -37,7 +37,10 @@
    The pack contains the Psi base files and language files.
    LZMA Compression is used.
    
-   Compiles with: MakeNSIS v2.0 (+)
+   Compiles with: MakeNSIS v2.03
+   * doesn't work with newer versions because of an incompatibility -
+   researching
+   
 
      
 *******************************************************************************

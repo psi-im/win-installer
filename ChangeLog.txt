@@ -1,6 +1,6 @@
 ******************************************************************************
-   NSIS Installer Script for Psi 0.9.3 - ChangeLog
-    Current version: v1.7
+   NSIS Installer Script for Psi 0.10 - ChangeLog
+    Current version: v2.0
        Release date: 2005-01-30
       
    Copyright © 2004-2005 Mircea Ionut Bardac (IceRAM)

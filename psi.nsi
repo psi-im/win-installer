@@ -1,5 +1,5 @@
 ;*******************************************************************************
-;  psi.nsi v1.7 - NSIS script for installing Psi 0.9.3
+;  psi.nsi v2.0 - NSIS script for installing Psi 0.10
 ;  Copyright © 2004-2005 Mircea Ionut Bardac (IceRAM)
 ;
 ;  This program is free software; you can redistribute it and/or
@@ -20,7 +20,7 @@
 ;*******************************************************************************
 
 ; Installer Script Version
-!define INSTALLER_VERSION "1.7"
+!define INSTALLER_VERSION "2.0"
 
 !define INSTALLER_BUILD "1"
 ; ^ update whenever you add something to the installer and rebuild it
@@ -41,7 +41,7 @@
 
 ; Application name
 !define APPNAME "Psi"
-!define APPVERSION "0.9.3"
+!define APPVERSION "0.10"
 !define APPEXTRAVERSION ""
 !define APPFULLVERSION "${APPVERSION}${APPEXTRAVERSION}"
 !define APPNAMEANDVERSION "${APPNAME} ${APPFULLVERSION}"
@@ -72,7 +72,7 @@ VIAddVersionKey LegalTrademarks ""
  !endif
 !endif
 VIAddVersionKey SpecialBuild "Build number: ${INSTALLER_BUILD}"
-VIProductVersion "${APPVERSION}.${INSTALLER_BUILD}"
+VIProductVersion "${APPVERSION}.0.${INSTALLER_BUILD}"
 
 SetCompressor lzma
 
