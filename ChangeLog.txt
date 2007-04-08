@@ -1,0 +1,74 @@
+******************************************************************************
+   NSIS Installer Script for Psi 0.9.3 - ChangeLog
+    Current version: v1.7
+       Release date: 2005-01-30
+      
+   Copyright © 2004-2005 Mircea Ionut Bardac (IceRAM)
+     e-mail: dev@mircea.bardac.net
+       xmpp: iceram@jabber.org
+******************************************************************************
+
+   Legend:
+    "-" = removed 
+    "+" = added
+    "!" = fixed
+
+   * v1.0 (2004-01-04) - first release
+       ! solved FlySpray task #147
+         http://psi.affinix.com/flyspray/?do=details&id=147
+   * v1.1 (2004-01-07) 
+       ! changed compiller to: MakeNSIS v2.0rc2
+         (some installer translations have been updated)
+       + created new install/uninstall icons
+       ! reorganized the options for the shortcuts (simplified the structure)
+       ! reorganized the code (much more modular)
+       + made the installer fully translateable using exterior language files
+   * v1.2 (2004-01-11)
+       ! reorganized language detection & string assigning
+       ! fixed translation display
+   * v1.3 (2004-01-20)
+       ! replaced some explicit refrences to Psi 0.9.1 with global variables
+       ! the installer saves properly the language used for the installation
+         and automatically selects it on uninstall
+       + installer saves the version of Psi it installs in a reg key
+         FlySpray: http://psi.affinix.com/flyspray/index.php?do=details&id=35
+   * v1.4 (2004-02-01)
+       + created ChangeLog.txt for tracking easier the changes in the installer
+       - removed ChangeLog section from ReadME.txt
+       + added compile directive BUIL_WITH_LANGPACKS - allows installer builds
+         that do not include language packs 
+       - removed psi-base.nsi from the installer files
+         (same effect can be obtained by using commenting BUIL_WITH_LANGPACKS)
+       + added INSTALLER_BUILD number, to allow tracking the installer rebuilds
+         for the same APPVERSION
+       + moved installer language includes to a separate file
+       ! optimized code
+   * v1.5 (2004-02-08)
+       + added compile directive LANG_TEST_BUILD to build installers only for
+         language tests (installer languages & Psi languages packs)
+       ! minor build improvements (added LCAPPNAME - lowercase AppName)
+       - removed redundant code from the install section
+   * v1.6 (2004-06-10)
+       ! updated for Psi 0.9.2 release
+       ! fixed uninstall (previous version removed the entire folder, including
+         custom iconsets/sounds/certs) - now it only deletes the files installed
+       ! installer now quits if Cancel is pressed when the user is told that the
+         (un)install can not continue because Psi is already running
+         (previous version continued (un)install if Cancel was pressed)
+       + separated the (un)install file lists for easier management
+         (psi_files_install.nsi & psi_files_uninstall.nsi)
+    * v1.7 (2005-01-30)
+       ! updated for Psi 0.9.3 release
+       ! silent uninstall of previous version, after warning the user
+       ! clarified the upgrade warning
+       ! cleanup: moved the string init functions to installer-functions.nsh
+         as a macro
+       ! checking for a running Psi version is done before testing for a
+         previously installed version
+       + added APPEXTRAVERSION variable to define non-final release versions
+       ! packages including Psi language packs will be suffixed by "-i18n"
+         and base packages will have no suffix
+       ! sorted the installer languages alphabetically
+       ! fixed auto_uninstall (thanks Michal)
+
+******************************************************************************
