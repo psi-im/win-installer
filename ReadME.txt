@@ -1,7 +1,7 @@
 ******************************************************************************
    NSIS Installer Script for Psi 0.10
 
-   Copyright © 2004-2005 Mircea Ionut Bardac (IceRAM)
+   Copyright © 2004-2005 Mircea Bardac (IceRAM)
      e-mail: dev@mircea.bardac.net
        xmpp: iceram@jabber.org
 
@@ -11,7 +11,10 @@
 ** Legal notice
   
    psi.nsi - NSIS script for installing Psi 0.10
-   Copyright © 2004-2005 Mircea Ionut Bardac (IceRAM)
+   Copyright © 2004-2005 Mircea Bardac (IceRAM)
+   
+   Graphics (pctures, icons)
+   Copyright © 2005 Robert Martinez (MRAY)
    
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License
