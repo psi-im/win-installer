@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# PrepFiles v1.0
+# Copyright (c) 2005 Mircea Bardac
+# E-mail: dev AT mircea.bardac.net
+
+# Script to prepare the (un)install file lists for the installer
+# Start from: installer/tools/
+# Usage: ./prepfiles program_archive.zip
+# The script will also replace the contents of psi_app/
+
+infile=$1
+echo $infile
+yes A | unzip -q $infile # | grep -v "warning" | grep -v "chmod"
+
+indir=$(find -type d | grep / | head -n 1 | sed "s|./||g")
+
+find $indir -type d > directories.list
+
+out_inst="psi_files_install.nsi"
+echo ";" > $out_inst
+echo "; List of files to be INSTALLED (Base section)" >> $out_inst
+echo ";" >> $out_inst
+echo >> $out_inst
+
+out_uninst="psi_files_uninstall.nsi"
+echo ";" > $out_uninst
+echo "; List of files to be UNINSTALLED (Base section)" >> $out_uninst
+echo ";" >> $out_uninst
+echo >> $out_uninst
+
+cat directories.list | while read cline; do
+	#echo $cline
+	outpath=$(echo "$cline" | sed "s|$indir|\$INSTDIR|g")
+	echo -e "\tSetOutPath \"$outpath\"" >> $out_inst
+	find $cline -type f | grep -v "$cline/.*/.*" | while read cfile; do
+		fpath=$(echo "$cfile" | sed -e "s|$indir||g")
+		echo -e "\tFile \"psi_app$fpath\"" >> $out_inst
+		echo -e "\tDelete \"\$INSTDIR$fpath\"" >> $out_uninst
+		done
+	echo >> $out_inst
+	echo >> $out_uninst
+done
+
+cat directories.list | sort -r | while read cdir; do
+	outpath=$(echo "$cdir" | sed "s|$indir|\$INSTDIR|g")
+	echo -e "\tRMDir \"$outpath\"" >> $out_uninst
+done
+
+sed -i "s|/|\\\|g" $out_inst 
+sed -i "s|/|\\\|g" $out_uninst 
+
+rm -f directories.list
+
+rm -rf ../psi_app
+#mkdir ../psi_app
+ls $indir/
+cp -a $indir ../psi_app
+rm -rf $indir
+
+mv $out_inst ../
+mv $out_uninst ../

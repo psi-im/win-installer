@@ -1,0 +1,20 @@
+# Language Mapping File
+
+# Structure:
+# <FileName> <SectionName> <LanguageID> <LanguageName>
+# <LanguageID> is the NSIS language ID - can be missing
+
+psi_cs.qm	LangCS	LANG_FRENCH	Czech
+psi_nl.qm	LangNL	LANG_DUTCH	Dutch
+psi_et.qm	LangET	LANG_ESTONIAN	Estonian
+psi_fr.qm	LangFR	LANG_FRENCH	French
+psi_de.qm	LangDE	LANG_GERMAN	German
+psi_el.qm	LangEL	LANG_GREEK	Greek
+psi_mk.qm	LangMK	LANG_MACEDONIAN	Macedonian
+psi_pl.qm	LangPL	LANG_POLISH	Polish
+psi_zh.qm	LangZH	LANG_SIMPCHINESE	Simplified Chinese
+psi_es.qm	LangES	LANG_SPANISH	Spanish
+psi_ru.qm	LangRU	LANG_RUSSIAN	Russian
+psi_sk.qm	LangSK	LANG_SLOVAK	Slovak
+psi_vi.qm	LangVI		Vietnamese
+

@@ -224,100 +224,8 @@ SectionEnd
 
 !ifdef BUILD_WITH_LANGPACKS
 SubSection "$LSTR_LANGUAGES" SectionLang
-
-; Czech
-Section /o "Czech" LangCS
-  SetOverwrite on
-  SetOutPath "$INSTDIR\"
-  File "${INSTALLER_SOURCE}\psi_lang\psi_cs.qm"
-SectionEnd
-
-; Dutch
-Section /o "Dutch" LangNL
-  SetOverwrite on
-  SetOutPath "$INSTDIR\"
-  File "${INSTALLER_SOURCE}\psi_lang\psi_nl.qm"
-SectionEnd
-
-; Estonian
-Section /o "Estonian" LangET
-  SetOverwrite on
-  SetOutPath "$INSTDIR\"
-  File "${INSTALLER_SOURCE}\psi_lang\psi_et.qm"
-SectionEnd
-
-; French
-Section /o "French" LangFR
-  SetOverwrite on
-  SetOutPath "$INSTDIR\"
-  File "${INSTALLER_SOURCE}\psi_lang\psi_fr.qm"
-SectionEnd
-
-; German
-Section /o "German" LangDE
-  SetOverwrite on
-  SetOutPath "$INSTDIR\"
-  File "${INSTALLER_SOURCE}\psi_lang\psi_de.qm"
-SectionEnd
-
-; Greek
-Section /o "Greek" LangEL
-  SetOverwrite on
-  SetOutPath "$INSTDIR\"
-  File "${INSTALLER_SOURCE}\psi_lang\psi_el.qm"
-SectionEnd
-
-; Macedonian
-Section /o "Macedonian" LangMK
-  SetOverwrite on
-  SetOutPath "$INSTDIR\"
-  File "${INSTALLER_SOURCE}\psi_lang\psi_mk.qm"
-SectionEnd
-
-; Polish
-Section /o "Polish" LangPL
-  SetOverwrite on
-  SetOutPath "$INSTDIR\"
-  File "${INSTALLER_SOURCE}\psi_lang\psi_pl.qm"
-SectionEnd
-
-; Simplified Chinese
-Section /o "Simplified Chinese" LangZH
-  SetOverwrite on
-  SetOutPath "$INSTDIR\"
-  File "${INSTALLER_SOURCE}\psi_lang\psi_zh.qm"
-SectionEnd
-
-; Spanish
-Section /o "Spanish" LangES
-  SetOverwrite on
-  SetOutPath "$INSTDIR\"
-  File "${INSTALLER_SOURCE}\psi_lang\psi_es.qm"
-SectionEnd
-
-; Russian
-Section /o "Russian" LangRU
-  SetOverwrite on
-  SetOutPath "$INSTDIR\"
-  File "${INSTALLER_SOURCE}\psi_lang\psi_ru.qm"
-SectionEnd
-
-; Slovak
-Section /o "Slovak" LangSK
-  SetOverwrite on
-  SetOutPath "$INSTDIR\"
-  File "${INSTALLER_SOURCE}\psi_lang\psi_sk.qm"
-SectionEnd
-
-; Vietnamese
-Section /o "Vietnamese" LangVI
-  SetOverwrite on
-  SetOutPath "$INSTDIR\"
-  File "${INSTALLER_SOURCE}\psi_lang\psi_vi.qm"
-SectionEnd
-
-
-; *** FOLLOW THE PATTERN WHEN ADDING LANGUAGES
+  !include "psi_lang_install.inc"
+  ; See ReadME.txt for more information
 SubSectionEnd
 !endif
 
@@ -435,33 +343,8 @@ Function .onInit
 
 !ifdef BUILD_WITH_LANGPACKS
 ; automatically choose language pack to install
-
- StrCmp $LANGUAGE ${LANG_CZECH} 0 +2
-  SectionSetFlags ${LangCS} ${SF_SELECTED}
- StrCmp $LANGUAGE ${LANG_ESTONIAN} 0 +2
-  SectionSetFlags ${LangET} ${SF_SELECTED}
- StrCmp $LANGUAGE ${LANG_DUTCH} 0 +2
-  SectionSetFlags ${LangNL} ${SF_SELECTED}
- StrCmp $LANGUAGE ${LANG_FRENCH} 0 +2
-  SectionSetFlags ${LangFR} ${SF_SELECTED}
- StrCmp $LANGUAGE ${LANG_GERMAN} 0 +2
-  SectionSetFlags ${LangDE} ${SF_SELECTED}
- StrCmp $LANGUAGE ${LANG_GREEK} 0 +2
-  SectionSetFlags ${LangEL} ${SF_SELECTED}
- StrCmp $LANGUAGE ${LANG_MACEDONIAN} 0 +2
-  SectionSetFlags ${LangMK} ${SF_SELECTED}
- StrCmp $LANGUAGE ${LANG_POLISH} 0 +2
-  SectionSetFlags ${LangPL} ${SF_SELECTED}
- StrCmp $LANGUAGE ${LANG_SIMPCHINESE} 0 +2
-  SectionSetFlags ${LangZH} ${SF_SELECTED}
- StrCmp $LANGUAGE ${LANG_SPANISH} 0 +2
-  SectionSetFlags ${LangES} ${SF_SELECTED}
- StrCmp $LANGUAGE ${LANG_RUSSIAN} 0 +2
-  SectionSetFlags ${LangRU} ${SF_SELECTED}
- StrCmp $LANGUAGE ${LANG_SLOVAK} 0 +2
-  SectionSetFlags ${LangSK} ${SF_SELECTED}
-; no Vietnamese AutoSelection
-  ; *** FOLLOW THE PATTERN WHEN ADDING LANGUAGES
+  !include "psi_lang_setup.inc"
+  ; See ReadME.txt for more information
 ; ****************
 !endif
 
@@ -612,20 +495,8 @@ Section Uninstall
 
 !ifdef BUILD_WITH_LANGPACKS
   ; Delete Language files
-  Delete "$INSTDIR\psi_cs.qm"
-  Delete "$INSTDIR\psi_et.qm"
-  Delete "$INSTDIR\psi_nl.qm"
-  Delete "$INSTDIR\psi_fr.qm"
-  Delete "$INSTDIR\psi_de.qm"
-  Delete "$INSTDIR\psi_el.qm"
-  Delete "$INSTDIR\psi_mk.qm"
-  Delete "$INSTDIR\psi_pl.qm"
-  Delete "$INSTDIR\psi_zh.qm"
-  Delete "$INSTDIR\psi_es.qm"
-  Delete "$INSTDIR\psi_ru.qm"
-  Delete "$INSTDIR\psi_sk.qm"
-  Delete "$INSTDIR\psi_vi.qm"
-  ; *** FOLLOW THE PATTERN WHEN ADDING LANGUAGES
+  !include "psi_lang_uninstall.inc"
+  ; See ReadME.txt for more information
 !endif
 
   ; Clean up Psi (base)

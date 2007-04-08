@@ -70,5 +70,8 @@
          and base packages will have no suffix
        ! sorted the installer languages alphabetically
        ! fixed auto_uninstall (thanks Michal)
+    * v2.0beta (2005-09-25)
+       + separated Psi language files & setup
+       + added tools/prepfiles, tools/preplang scripts for easy management
 
 ******************************************************************************

@@ -61,6 +61,7 @@
       \ - psi_app
       | - psi_lang
       | - lang
+      | - tools
 
    * INSTALLER_SOURCE can be changed at the beginning of the script.
      The folder contains:
@@ -76,7 +77,11 @@
    * psi_lang contains Psi's *.qm language files
    * lang contains files with translations for the installer:
       Example: psi_installer_LANG.nsh
-
+   * tools contains scrips (& their configuration) for updating the
+     installer when a new Psi version and/or Psi language files are out
+      - prepfiles < bash script used for updating the file list
+      - preplang < Python script used for updating the Psi language file list
+      - psi_lang.map < language map file used by the preplang script
 
 *******************************************************************************
 ** Installer languages
@@ -109,36 +114,20 @@
 *******************************************************************************
 ** Adding a new Psi language to the installer script:
 
-  1. Search in the .nsi file for "*** FOLLOW THE PATTERN WHEN ADDING LANGUAGES"
-     (without quotes)
-  2. You'll find 3 occurrences where the file must be modified so the installer
-     could work properly with another language.
-  3. First of all, add the language to the Languages section (1st occurrence)
-     Example for adding Polish language:
+  1. add the language to the "psi_lang/" dir
+  2. make sure the language map file in tools/psi_lang.map contains the correct
+     information for the language you add (also check the comments at the
+     beginning of the file)
+  3. run "./preplang" (Python script) in the "tools/" dir 
    
-            Section /o "Polish" LangPL
-              SetOverwrite on
-              SetOutPath "$INSTDIR\"
-              File "${INSTALLER_SOURCE}\psi_lang\psi_pl.qm"
-            SectionEnd
-            
-  4. Add the language file to the Uninstall section (2nd occurence)
-     Example for adding Polish language to the uninstall section:
 
-            Delete "$INSTDIR\psi_pl.qm"
-            
-  5. The 3rd occurrence allows the installer to automatically check the
-     language pack selected by the user.
-     (after checking the installer's language)
-     Example for the Polish language:
+*******************************************************************************
+** Updating the file list
 
-            StrCmp $LANGUAGE ${LANG_POLISH} 0 +2
-              SectionSetFlags ${LangPL} ${SF_SELECTED}
-              
-     Note that ${LANG_POLISH} is already defined and must be known by the
-     compiler. This last function is not mandatory for the good functioning of
-     the installer.
-   
+  1. run "./prepfiles archive.zip" (Bash script) in the "tools/" dir with
+     archive.zip being the Psi archive with the release you're packing
+
+
 *******************************************************************************
 ** Functionality
 

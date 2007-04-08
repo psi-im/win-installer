@@ -1,0 +1,58 @@
+#!/usr/bin/env python
+
+# PrepLang v1.0
+# Copyright (c) 2005 Mircea Bardac
+# E-mail: dev AT mircea.bardac.net
+
+# Script to prepare the (un)install file lists & setup for the language files
+# Start from: installer/tools/
+# Usage: ./preplang
+# The script will also put the new language setup files in the installer dir
+
+import os
+import string
+import array
+
+fmap=open("psi_lang.map")
+
+flanginst=open("../psi_lang_install.inc","w")
+flangsetup=open("../psi_lang_setup.inc","w")
+flanguninst=open("../psi_lang_uninstall.inc","w")
+
+langmap={}
+for s in fmap.readlines():
+	s=s.replace("\n","")
+	langsettings=s.split('\t')
+	if langsettings[0]!='':
+		if s[0]=='#': continue
+		langmap[langsettings[0]]=langsettings[1:]
+
+langlist={}
+for file in os.listdir("../psi_lang"):
+	if (not langmap.has_key(file)):
+		print "!Language definition not found for file: "+file+" (skipped)"
+		continue
+	else:
+		print "Language definition found for: "+file+" = "+langmap[file][2]
+		langlist[langmap[file][2]]=[file, langmap[file][0], langmap[file][1]]
+
+for lang in sorted(langlist.keys()):
+	filename=langlist[lang][0]
+	sectionid=langlist[lang][1]
+	langid=langlist[lang][2]
+	flanginst.write("; "+lang+"\n")
+	flanginst.write("Section /o \""+lang+"\" "+sectionid+"\n")
+	flanginst.write("\tSetOverwrite on\n")
+	flanginst.write("\tSetOutPath \"$INSTDIR\\\"\n")
+	flanginst.write("\tFile \"${INSTALLER_SOURCE}\\psi_lang\\"+filename+"\n")
+	flanginst.write("SectionEnd\n\n")
+	flanguninst.write("\tDelete \"$INSTDIR\\"+filename+"\"\n")
+	if langid!="":
+		flangsetup.write("\tStrCmp $LANGUAGE ${"+langid+"} 0 +2\n")
+		flangsetup.write("\t\tSectionSetFlags ${"+sectionid+"} ${SF_SELECTED}\n")
+	else:
+		flangsetup.write("\t; No "+lang+" AutoSelection\n")
+
+flanginst.close()
+flangsetup.close()
+flanguninst.close()
