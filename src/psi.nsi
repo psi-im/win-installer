@@ -94,7 +94,7 @@ BrandingText "- ${APPNAMEANDVERSION} installer - build ${INSTALLER_BUILD} / Inst
 !define APP_SOURCE "${APP_BUILD}psi_app${FILE_SEPARATOR}"
 
 Name "${APPNAMEANDVERSION}"
-InstallDir "$PROGRAMFILES\Psi"
+InstallDir "$PROGRAMFILES\${APPNAME}"
 !ifdef BUILD_WITH_LANGPACKS
   OutFile "${APP_BUILD}${LCAPPNAME}-${APPFULLVERSION}-win-setup.exe"
 !else
@@ -108,14 +108,14 @@ InstallDirRegKey HKLM "Software\Affinix\${APPNAME}" ""
 
 ;--------------------------------
 ;Page settings
-!define MUI_ICON "${INSTALLER_SRC}\install.ico"
-!define MUI_UNICON "${INSTALLER_SRC}\uninstall.ico"
+!define MUI_ICON "${INSTALLER_SRC}install.ico"
+!define MUI_UNICON "${INSTALLER_SRC}uninstall.ico"
 
 !define MUI_HEADERIMAGE
-!define MUI_HEADERIMAGE_BITMAP "${INSTALLER_SRC}\psi-header-l.bmp"
-!define MUI_HEADERIMAGE_BITMAP_RTL "${INSTALLER_SRC}\psi-header-r.bmp"
-!define MUI_HEADERIMAGE_UNBITMAP "${INSTALLER_SRC}\psi-header-l.bmp"
-!define MUI_HEADERIMAGE_UNBITMAP_RTL "${INSTALLER_SRC}\psi-header-r.bmp"
+!define MUI_HEADERIMAGE_BITMAP "${INSTALLER_SRC}psi-header-l.bmp"
+!define MUI_HEADERIMAGE_BITMAP_RTL "${INSTALLER_SRC}psi-header-r.bmp"
+!define MUI_HEADERIMAGE_UNBITMAP "${INSTALLER_SRC}psi-header-l.bmp"
+!define MUI_HEADERIMAGE_UNBITMAP_RTL "${INSTALLER_SRC}psi-header-r.bmp"
 
 !define MUI_ABORTWARNING
 !define MUI_COMPONENTSPAGE_NODESC
@@ -126,8 +126,8 @@ InstallDirRegKey HKLM "Software\Affinix\${APPNAME}" ""
 !define MUI_FINISHPAGE_LINK "Click here to visit the Psi Homepage"
 !define MUI_FINISHPAGE_LINK_LOCATION "http://psi-im.org"
 
-!define MUI_WELCOMEFINISHPAGE_BITMAP "${INSTALLER_SRC}\psi-l.bmp"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP "${INSTALLER_SRC}\psi-l.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "${INSTALLER_SRC}psi-l.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "${INSTALLER_SRC}psi-l.bmp"
 ;!define MUI_LICENSEPAGE_CHECKBOX
 
 ;--------------------------------
@@ -201,14 +201,14 @@ Section "$LSTR_STARTMENU_GROUP ($INST_CONTEXT)" SectionSM
  sm_admin:
   SetShellVarContext all
  sm_done:
-  CreateDirectory "$SMPROGRAMS\Psi"
+  CreateDirectory "$SMPROGRAMS\${APPNAME}"
   SetOutPath "$INSTDIR\"
-  CreateShortCut "$SMPROGRAMS\Psi\Psi - Forum.lnk" "$INSTDIR\Psi - Forum.url"
-  CreateShortCut "$SMPROGRAMS\Psi\Psi - Documentation.lnk" "$INSTDIR\Psi - Documentation.url"
-  CreateShortCut "$SMPROGRAMS\Psi\Psi - Home page.lnk" "$INSTDIR\Psi - Home page.url"
-  CreateShortCut "$SMPROGRAMS\Psi\Psi.lnk" "$INSTDIR\Psi.exe"
-  CreateShortCut "$SMPROGRAMS\Psi\Uninstall.lnk" "$INSTDIR\uninstall.exe"
-  CreateShortCut "$SMPROGRAMS\Psi\ReadME.lnk" "$INSTDIR\Readme.txt"
+  CreateShortCut "$SMPROGRAMS\${APPNAME}\Psi - Forum.lnk" "$INSTDIR\Psi - Forum.url"
+  CreateShortCut "$SMPROGRAMS\${APPNAME}\Psi - Documentation.lnk" "$INSTDIR\Psi - Documentation.url"
+  CreateShortCut "$SMPROGRAMS\${APPNAME}\Psi - Home page.lnk" "$INSTDIR\Psi - Home page.url"
+  CreateShortCut "$SMPROGRAMS\${APPNAME}\Psi.lnk" "$INSTDIR\Psi.exe"
+  CreateShortCut "$SMPROGRAMS\${APPNAME}\Uninstall.lnk" "$INSTDIR\uninstall.exe"
+  CreateShortCut "$SMPROGRAMS\${APPNAME}\ReadME.lnk" "$INSTDIR\Readme.txt"
   SetShellVarContext current
 SectionEnd
 
@@ -422,25 +422,25 @@ Section Uninstall
   ; Delete Shortcuts
   SetShellVarContext current
   Delete "$DESKTOP\Psi.lnk"
-  Delete "$SMPROGRAMS\Psi\Psi.lnk"
-  Delete "$SMPROGRAMS\Psi\Uninstall.lnk"
-  Delete "$SMPROGRAMS\Psi\ReadME.lnk"
+  Delete "$SMPROGRAMS\${APPNAME}\Psi.lnk"
+  Delete "$SMPROGRAMS\${APPNAME}\Uninstall.lnk"
+  Delete "$SMPROGRAMS\${APPNAME}\ReadME.lnk"
   Delete "$QUICKLAUNCH\Psi.lnk"
-  Delete "$SMPROGRAMS\Psi\Psi - Forum.lnk"
-  Delete "$SMPROGRAMS\Psi\Psi - Home page.lnk"
-  Delete "$SMPROGRAMS\Psi\Psi - Documentation.lnk"
-  RMDir "$SMPROGRAMS\Psi"
+  Delete "$SMPROGRAMS\${APPNAME}\Psi - Forum.lnk"
+  Delete "$SMPROGRAMS\${APPNAME}\Psi - Home page.lnk"
+  Delete "$SMPROGRAMS\${APPNAME}\Psi - Documentation.lnk"
+  RMDir "$SMPROGRAMS\${APPNAME}"
 
   SetShellVarContext all
   Delete "$DESKTOP\Psi.lnk"
-  Delete "$SMPROGRAMS\Psi\Psi.lnk"
-  Delete "$SMPROGRAMS\Psi\Uninstall.lnk"
-  Delete "$SMPROGRAMS\Psi\ReadME.lnk"
+  Delete "$SMPROGRAMS\${APPNAME}\Psi.lnk"
+  Delete "$SMPROGRAMS\${APPNAME}\Uninstall.lnk"
+  Delete "$SMPROGRAMS\${APPNAME}\ReadME.lnk"
   Delete "$QUICKLAUNCH\Psi.lnk"
-  Delete "$SMPROGRAMS\Psi\Psi - Forum.lnk"
-  Delete "$SMPROGRAMS\Psi\Psi - Home page.lnk"
-  Delete "$SMPROGRAMS\Psi\Psi - Documentation.lnk"
-  RMDir "$SMPROGRAMS\Psi"
+  Delete "$SMPROGRAMS\${APPNAME}\Psi - Forum.lnk"
+  Delete "$SMPROGRAMS\${APPNAME}\Psi - Home page.lnk"
+  Delete "$SMPROGRAMS\${APPNAME}\Psi - Documentation.lnk"
+  RMDir "$SMPROGRAMS\${APPNAME}"
 
   ; DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "Psi"
   ; ^ Registry shortcut doesn't work
