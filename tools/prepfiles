@@ -13,7 +13,7 @@ infile=$1
 echo $infile
 yes A | unzip -q $infile # | grep -v "warning" | grep -v "chmod"
 
-indir=$(find -type d | grep / | head -n 1 | sed "s|./||g")
+indir=$(find . -type d | grep '/' | head -n 1 | sed 's|./||g')
 
 find $indir -type d > directories.list
 
