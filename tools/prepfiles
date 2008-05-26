@@ -11,13 +11,16 @@
 
 infile=$1
 echo $infile
-yes A | unzip -q $infile # | grep -v "warning" | grep -v "chmod"
+
+mkdir -p ../build/tmp
+cp $infile ../build/tmp/
+
+cd ../build/tmp/
+yes A | unzip -q $(basename $infile) # | grep -v "warning" | grep -v "chmod"
 
 indir=$(find . -type d | grep '/' | head -n 1 | sed 's|./||g')
 
 find $indir -type d > directories.list
-
-[ ! -d ../build ] && mkdir ../build
 
 out_inst="psi_files_install.nsh"
 echo ";" > $out_inst
@@ -49,14 +52,16 @@ cat directories.list | sort -r | while read cdir; do
 	echo -e "\tRMDir \"$outpath\"" >> $out_uninst
 done
 
-sed 's|/|/|g' $out_inst  > ../build/$out_inst
-sed 's|/|\\|g' $out_uninst > ../build/$out_uninst
+sed 's|/|/|g' $out_inst  > ../$out_inst
+sed 's|/|\\|g' $out_uninst > ../$out_uninst
 
 rm -f directories.list
 
-rm -rf ../build/psi_app
-cp -r $indir ../build/psi_app
-rm -rf $indir
+rm -rf ../psi_app
+mv $indir ../psi_app
 
 rm $out_inst
 rm $out_uninst
+
+cd ../
+rm -rf tmp

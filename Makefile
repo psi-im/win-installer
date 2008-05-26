@@ -9,7 +9,7 @@ languages:
 
 files:
 	@# detect zip file in build dir and use it
-	@f=$$(ls -1 build/*.zip | head -n1); cd tools; ./prepfiles ../$$f
+	@f=$$(ls -1 app/*.zip | head -n1); cd tools; ./prepfiles ../$$f
 
 build:
 	cd src; makensis psi.nsi
