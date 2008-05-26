@@ -139,6 +139,7 @@ InstallDirRegKey HKLM "Software\Affinix\${APPNAME}" ""
   !define MUI_LANGDLL_REGISTRY_VALUENAME "Installer Language"
 
 PAGE custom InitRoutines
+!define MUI_PAGE_CUSTOMFUNCTION_SHOW CompNames
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "${APP_SOURCE}\COPYING"
 !insertmacro MUI_PAGE_COMPONENTS
@@ -170,7 +171,7 @@ WriteINIStr "$INSTDIR\${URLFile}.url" "InternetShortcut" "URL" "${URLSite}"
 ;*********************************
 ; Sections of the installer
 
-Section "!$LSTR_PSIBASE" SectionBase
+Section "" SectionBase
   ; Set Section properties
   SetOverwrite on
   SectionIn RO
@@ -187,13 +188,13 @@ SectionEnd
 ; ********************************
 
 !ifdef BUILD_WITH_LANGPACKS
-SubSection "$LSTR_LANGUAGES" SectionLang
+SectionGroup "_" SectionLang
   !include "${APP_BUILD}psi_lang_install.nsh"
   ; See ReadME.txt for more information
-SubSectionEnd
+SectionGroupEnd
 !endif
 
-Section "$LSTR_STARTMENU_GROUP ($INST_CONTEXT)" SectionSM
+Section "" SectionSM
  StrCmp $RUN_BY_ADMIN "true" sm_admin
  sm_normal:
   SetShellVarContext current
@@ -213,20 +214,20 @@ Section "$LSTR_STARTMENU_GROUP ($INST_CONTEXT)" SectionSM
 SectionEnd
 
 ; ********************************
-SubSection "$LSTR_SHORTCUTS ($LSTR_CURRENTUSER)" SectionShortcuts
-  Section "$LSTR_DESKTOP_S" SectionSD
+SectionGroup "_" SectionShortcuts
+  Section "" SectionSD
    SetShellVarContext current
    SetOutPath "$INSTDIR\"
    CreateShortCut "$DESKTOP\Psi.lnk" "$INSTDIR\Psi.exe"
   SectionEnd
-  Section /o "$LSTR_QUICKLAUNCH" SectionQuickLaunch
+  Section /o "" SectionQuickLaunch
    SetShellVarContext current
    SetOutPath "$INSTDIR\"
    CreateShortCut "$QUICKLAUNCH\Psi.lnk" "$INSTDIR\Psi.exe"
   SectionEnd
-SubSectionEnd
+SectionGroupEnd
 
-Section "$LSTR_AUTOSTART ($LSTR_CURRENTUSER)" SectionAutomaticStartup
+Section "" SectionAutomaticStartup
   SetShellVarContext current
   SetOutPath "$INSTDIR\"
   CreateShortCut "$SMSTARTUP\Psi.lnk" "$INSTDIR\Psi.exe"
@@ -250,6 +251,19 @@ Section -FinishSection
  lastsettings_done:
  WriteUninstaller "$INSTDIR\uninstall.exe"
 SectionEnd
+
+Function CompNames
+  SectionSetText ${SectionBase} "$LSTR_PSIBASE"
+  !ifdef BUILD_WITH_LANGPACKS
+    SectionSetText ${SectionLang} "$LSTR_LANGUAGES"
+  !endif
+  SectionSetText ${SectionSM} "$LSTR_STARTMENU_GROUP ($INST_CONTEXT)"
+  SectionSetText ${SectionShortcuts} "$LSTR_SHORTCUTS ($LSTR_CURRENTUSER)"
+    SectionSetText ${SectionSD} "$LSTR_DESKTOP_S"
+    SectionSetText ${SectionQuickLaunch} "$LSTR_QUICKLAUNCH"
+  SectionSetText ${SectionAutomaticStartup} "$LSTR_AUTOSTART ($LSTR_CURRENTUSER)"
+FunctionEnd
+
 
 ; ***************************************
 ; installer initialization
