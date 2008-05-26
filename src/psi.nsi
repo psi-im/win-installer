@@ -25,18 +25,12 @@
 ; Installer Script Version
 !define INSTALLER_VERSION "2.0"
 
-!define INSTALLER_BUILD "1"
-; ^ update whenever you add something to the installer and rebuild it
-;   without changing APPVERSION
-; ^ reset to 0 when you change APPVERSION
-
-;!define BUILD_WITH_LANGPACKS
-; ^ comment if you want to build the installer without language packs
+; Psi Installer Configuration File
+!include "../config.nsh"
 
 ; Application name
 !define APPNAME "Psi"
-!define APPVERSION "0.10"
-!define APPEXTRAVERSION ""
+
 !define APPFULLVERSION "${APPVERSION}${APPEXTRAVERSION}"
 !define APPNAMEANDVERSION "${APPNAME} ${APPFULLVERSION}"
 
