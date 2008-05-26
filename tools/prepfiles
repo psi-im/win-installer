@@ -17,6 +17,8 @@ indir=$(find -type d | grep / | head -n 1 | sed "s|./||g")
 
 find $indir -type d > directories.list
 
+[ ! -d ../build ] && mkdir ../build
+
 out_inst="psi_files_install.nsi"
 echo ";" > $out_inst
 echo "; List of files to be INSTALLED (Base section)" >> $out_inst
@@ -35,7 +37,7 @@ cat directories.list | while read cline; do
 	echo -e "\tSetOutPath \"$outpath\"" >> $out_inst
 	find $cline -type f | grep -v "$cline/.*/.*" | while read cfile; do
 		fpath=$(echo "$cfile" | sed -e "s|$indir||g")
-		echo -e "\tFile \"psi_app$fpath\"" >> $out_inst
+		echo -e "\tFile \"\${APP_SOURCE}$fpath\"" >> $out_inst
 		echo -e "\tDelete \"\$INSTDIR$fpath\"" >> $out_uninst
 		done
 	echo >> $out_inst
@@ -47,16 +49,14 @@ cat directories.list | sort -r | while read cdir; do
 	echo -e "\tRMDir \"$outpath\"" >> $out_uninst
 done
 
-sed -i "s|/|\\\|g" $out_inst 
-sed -i "s|/|\\\|g" $out_uninst 
+sed 's|/|/|g' $out_inst  > ../build/$out_inst
+sed 's|/|\\|g' $out_uninst > ../build/$out_uninst
 
 rm -f directories.list
 
-rm -rf ../psi_app
-#mkdir ../psi_app
-ls $indir/
-cp -a $indir ../psi_app
+rm -rf ../build/psi_app
+cp -r $indir ../build/psi_app
 rm -rf $indir
 
-mv $out_inst ../
-mv $out_uninst ../
+rm $out_inst
+rm $out_uninst
