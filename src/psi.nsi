@@ -48,10 +48,10 @@ VIAddVersionKey FileVersion "${INSTALLER_VERSION}b${INSTALLER_BUILD}"
 VIAddVersionKey InternalName "${APPNAMEANDVERSION} Installer  (build ${INSTALLER_BUILD}) - Win32 Installer v${INSTALLER_VERSION}"
 VIAddVersionKey LegalTrademarks ""
 !ifdef BUILD_WITH_LANGPACKS
-  VIAddVersionKey OriginalFilename "${LCAPPNAME}-${APPFULLVERSION}-win-setup-i18n.exe"
+  VIAddVersionKey OriginalFilename "${LCAPPNAME}-${APPFULLVERSION}-win-setup.exe"
   VIAddVersionKey PrivateBuild "Language Packs Included: yes"
 !else
-  VIAddVersionKey OriginalFilename "${LCAPPNAME}-${APPFULLVERSION}-win-setup.exe"
+  VIAddVersionKey OriginalFilename "${LCAPPNAME}-${APPFULLVERSION}-win-setup-base.exe"
   VIAddVersionKey PrivateBuild "Language Packs Included: none"
 !endif
 VIAddVersionKey SpecialBuild "Build number: ${INSTALLER_BUILD}"
@@ -96,9 +96,9 @@ BrandingText "- ${APPNAMEANDVERSION} installer - build ${INSTALLER_BUILD} / Inst
 Name "${APPNAMEANDVERSION}"
 InstallDir "$PROGRAMFILES\Psi"
 !ifdef BUILD_WITH_LANGPACKS
-  OutFile "${LCAPPNAME}-${APPFULLVERSION}-win-setup-i18n.exe"
-!else
   OutFile "${LCAPPNAME}-${APPFULLVERSION}-win-setup.exe"
+!else
+  OutFile "${LCAPPNAME}-${APPFULLVERSION}-win-setup-base.exe"
 !endif
 
 InstallDirRegKey HKLM "Software\Affinix\${APPNAME}" ""
