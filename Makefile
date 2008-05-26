@@ -15,6 +15,4 @@ build:
 	cd src; makensis psi.nsi
 
 clean:
-	rm -rf build/psi_app
-	rm -f build/*.nsh
-	rm -f build/*.exe
+	rm -rf build
