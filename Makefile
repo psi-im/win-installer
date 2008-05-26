@@ -5,7 +5,7 @@
 all: languages files build
 
 languages:
-	@cd tools; ./preplang
+	@cd tools; ./preplang ../app/psi_lang
 
 files:
 	@# detect zip file in build dir and use it

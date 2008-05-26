@@ -12,6 +12,8 @@
 import os
 import string
 import array
+import sys
+import shutil
 
 # create build paths if they do not exist
 if not os.path.exists("../build"):
@@ -34,7 +36,9 @@ for s in fmap.readlines():
 		langmap[langsettings[0]]=langsettings[1:]
 
 langlist={}
-for file in os.listdir("../build/psi_lang"):
+for file in os.listdir(sys.argv[1]):
+	if os.path.isdir(sys.argv[1]+"/"+file): continue
+	shutil.copyfile(sys.argv[1]+"/"+file, "../build/psi_lang/"+file);
 	if (not langmap.has_key(file)):
 		print "!Language definition not found for file: "+file+" (skipped)"
 		continue
