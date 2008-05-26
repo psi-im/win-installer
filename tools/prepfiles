@@ -19,13 +19,13 @@ find $indir -type d > directories.list
 
 [ ! -d ../build ] && mkdir ../build
 
-out_inst="psi_files_install.nsi"
+out_inst="psi_files_install.nsh"
 echo ";" > $out_inst
 echo "; List of files to be INSTALLED (Base section)" >> $out_inst
 echo ";" >> $out_inst
 echo >> $out_inst
 
-out_uninst="psi_files_uninstall.nsi"
+out_uninst="psi_files_uninstall.nsh"
 echo ";" > $out_uninst
 echo "; List of files to be UNINSTALLED (Base section)" >> $out_uninst
 echo ";" >> $out_uninst

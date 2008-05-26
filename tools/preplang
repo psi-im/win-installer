@@ -21,9 +21,9 @@ if not os.path.exists("../build/psi_lang"):
 
 fmap=open("psi_lang.map")
 
-flanginst=open("../build/psi_lang_install.inc","w")
-flangsetup=open("../build/psi_lang_setup.inc","w")
-flanguninst=open("../build/psi_lang_uninstall.inc","w")
+flanginst=open("../build/psi_lang_install.nsh","w")
+flangsetup=open("../build/psi_lang_setup.nsh","w")
+flanguninst=open("../build/psi_lang_uninstall.nsh","w")
 
 langmap={}
 for s in fmap.readlines():

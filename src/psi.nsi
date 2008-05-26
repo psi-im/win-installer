@@ -203,7 +203,7 @@ Section "!$LSTR_PSIBASE" SectionBase
   SectionIn RO
   ; Set Section Files and Shortcuts
 !ifndef LANG_TEST_BUILD
- !include "${APP_BUILD}psi_files_install.nsi"
+ !include "${APP_BUILD}psi_files_install.nsh"
 !else
   SetOutPath "$INSTDIR\"
   File "${APP_SOURCE}\COPYING" ;install only one file when LANG_TEST_BUILD
@@ -219,7 +219,7 @@ SectionEnd
 
 !ifdef BUILD_WITH_LANGPACKS
 SubSection "$LSTR_LANGUAGES" SectionLang
-  !include "${APP_BUILD}psi_lang_install.inc"
+  !include "${APP_BUILD}psi_lang_install.nsh"
   ; See ReadME.txt for more information
 SubSectionEnd
 !endif
@@ -338,7 +338,7 @@ Function .onInit
 
 !ifdef BUILD_WITH_LANGPACKS
 ; automatically choose language pack to install
-  !include "${APP_BUILD}psi_lang_setup.inc"
+  !include "${APP_BUILD}psi_lang_setup.nsh"
   ; See ReadME.txt for more information
 ; ****************
 !endif
@@ -480,12 +480,12 @@ Section Uninstall
 
 !ifdef BUILD_WITH_LANGPACKS
   ; Delete Language files
-  !include "${APP_BUILD}psi_lang_uninstall.inc"
+  !include "${APP_BUILD}psi_lang_uninstall.nsh"
   ; See ReadME.txt for more information
 !endif
 
   ; Clean up Psi (base)
-  !include "${APP_BUILD}psi_files_uninstall.nsi"
+  !include "${APP_BUILD}psi_files_uninstall.nsh"
 SectionEnd
 
 
