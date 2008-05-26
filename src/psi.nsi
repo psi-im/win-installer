@@ -86,12 +86,9 @@ Var LSTR_ERR_UNINST
 !define XPSTYLE on
 
 BrandingText "- ${APPNAMEANDVERSION} installer - build ${INSTALLER_BUILD} / Installer Script Source ver. ${INSTALLER_VERSION} (c) 2004-2005 Mircea Bardac (IceRAM) "
-!define HOME_URL "http://psi.affinix.com/"
-
-!define INSTALLER_HOME "C:\dev\psi_installer"
+!define HOME_URL "http://psi-im.org/"
 
 ; Main Install settings
-!define FILE_SEPARATOR "/"
 !define APP_BUILD "${INSTALLER_HOME}${FILE_SEPARATOR}build${FILE_SEPARATOR}"
 !define INSTALLER_SRC "${INSTALLER_HOME}${FILE_SEPARATOR}src${FILE_SEPARATOR}"
 !define APP_SOURCE "${APP_BUILD}psi_app${FILE_SEPARATOR}"
@@ -127,7 +124,7 @@ InstallDirRegKey HKLM "Software\Affinix\${APPNAME}" ""
 !define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\Readme.txt"
 
 !define MUI_FINISHPAGE_LINK "Click here to visit the Psi Homepage"
-!define MUI_FINISHPAGE_LINK_LOCATION "http://psi.affinix.com/"
+!define MUI_FINISHPAGE_LINK_LOCATION "http://psi-im.org"
 
 !define MUI_WELCOMEFINISHPAGE_BITMAP "${INSTALLER_SRC}\psi-l.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "${INSTALLER_SRC}\psi-l.bmp"
@@ -181,9 +178,9 @@ Section "!$LSTR_PSIBASE" SectionBase
   ; Set Section Files and Shortcuts
   !include "${APP_BUILD}psi_files_install.nsh"
   SetOutPath "$INSTDIR\"
-  !insertmacro "CreateURL" "Psi - Home page" "http://psi.affinix.com/"
-  !insertmacro "CreateURL" "Psi - Forum" "http://psi.affinix.com/forums/"
-  !insertmacro "CreateURL" "Psi - Documentation" "http://psi.affinix.com/psi_docs/"
+  !insertmacro "CreateURL" "Psi - Home page" "http://psi-im.org"
+  !insertmacro "CreateURL" "Psi - Forum" "http://psi-im.org/forum"
+  !insertmacro "CreateURL" "Psi - Documentation" "http://psi-im.org/wiki"
 SectionEnd
 
 
