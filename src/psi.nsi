@@ -96,9 +96,9 @@ BrandingText "- ${APPNAMEANDVERSION} installer - build ${INSTALLER_BUILD} / Inst
 Name "${APPNAMEANDVERSION}"
 InstallDir "$PROGRAMFILES\Psi"
 !ifdef BUILD_WITH_LANGPACKS
-  OutFile "${LCAPPNAME}-${APPFULLVERSION}-win-setup.exe"
+  OutFile "${APP_BUILD}${LCAPPNAME}-${APPFULLVERSION}-win-setup.exe"
 !else
-  OutFile "${LCAPPNAME}-${APPFULLVERSION}-win-setup-base.exe"
+  OutFile "${APP_BUILD}${LCAPPNAME}-${APPFULLVERSION}-win-setup-base.exe"
 !endif
 
 InstallDirRegKey HKLM "Software\Affinix\${APPNAME}" ""
