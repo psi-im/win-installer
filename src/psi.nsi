@@ -135,14 +135,14 @@ InstallDirRegKey HKLM "Software\Affinix\${APPNAME}" ""
 
 ;--------------------------------
 ;Page settings
-!define MUI_ICON "${INSTALLER_HOME}\install.ico"
-!define MUI_UNICON "${INSTALLER_HOME}\uninstall.ico"
+!define MUI_ICON "${INSTALLER_SRC}\install.ico"
+!define MUI_UNICON "${INSTALLER_SRC}\uninstall.ico"
 
 !define MUI_HEADERIMAGE
-!define MUI_HEADERIMAGE_BITMAP "${INSTALLER_HOME}\psi-header-l.bmp"
-!define MUI_HEADERIMAGE_BITMAP_RTL "${INSTALLER_HOME}\psi-header-r.bmp"
-!define MUI_HEADERIMAGE_UNBITMAP "${INSTALLER_HOME}\psi-header-l.bmp"
-!define MUI_HEADERIMAGE_UNBITMAP_RTL "${INSTALLER_HOME}\psi-header-r.bmp"
+!define MUI_HEADERIMAGE_BITMAP "${INSTALLER_SRC}\psi-header-l.bmp"
+!define MUI_HEADERIMAGE_BITMAP_RTL "${INSTALLER_SRC}\psi-header-r.bmp"
+!define MUI_HEADERIMAGE_UNBITMAP "${INSTALLER_SRC}\psi-header-l.bmp"
+!define MUI_HEADERIMAGE_UNBITMAP_RTL "${INSTALLER_SRC}\psi-header-r.bmp"
 
 !define MUI_ABORTWARNING
 !define MUI_COMPONENTSPAGE_NODESC
@@ -153,8 +153,8 @@ InstallDirRegKey HKLM "Software\Affinix\${APPNAME}" ""
 !define MUI_FINISHPAGE_LINK "Click here to visit the Psi Homepage"
 !define MUI_FINISHPAGE_LINK_LOCATION "http://psi.affinix.com/"
 
-!define MUI_WELCOMEFINISHPAGE_BITMAP "${INSTALLER_HOME}\psi-l.bmp"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP "${INSTALLER_HOME}\psi-l.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "${INSTALLER_SRC}\psi-l.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "${INSTALLER_SRC}\psi-l.bmp"
 ;!define MUI_LICENSEPAGE_CHECKBOX
 
 ;--------------------------------
@@ -167,7 +167,7 @@ InstallDirRegKey HKLM "Software\Affinix\${APPNAME}" ""
 
 PAGE custom InitRoutines
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "${INSTALLER_HOME}\psi_app\COPYING"
+!insertmacro MUI_PAGE_LICENSE "${APP_SOURCE}\COPYING"
 !insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
@@ -206,7 +206,7 @@ Section "!$LSTR_PSIBASE" SectionBase
  !include "${APP_BUILD}psi_files_install.nsi"
 !else
   SetOutPath "$INSTDIR\"
-  File "${INSTALLER_HOME}\psi_app\COPYING" ;install only one file when LANG_TEST_BUILD
+  File "${APP_SOURCE}\COPYING" ;install only one file when LANG_TEST_BUILD
 !endif
   SetOutPath "$INSTDIR\"
   !insertmacro "CreateURL" "Psi - Home page" "http://psi.affinix.com/"
