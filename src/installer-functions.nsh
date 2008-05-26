@@ -1,6 +1,6 @@
 ;********************************************************
 ;  installer-functions.nsh v1.1 - functions for the Psi NSIS Script file
-;  Copyright (c) 2004-2005 Mircea Bardac (IceRAM)
+;  Copyright (c) 2004-2008 Mircea Bardac (IceRAM)
 ;
 ;  This program is free software; you can redistribute it and/or
 ;  modify it under the terms of the GNU General Public License
@@ -81,6 +81,7 @@ FunctionEnd
 ; *************************************
 
 !macro INIT_LANG_STRINGS
+
  ; initializing the strings with the coresponding ones in the active language
  StrCpy $LSTR_PSIBASE         "Psi (base)"
  StrCpy $LSTR_LANGUAGES       "Languages"
