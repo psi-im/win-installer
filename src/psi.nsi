@@ -40,7 +40,7 @@
 ; Version information for the installer executable
 VIAddVersionKey ProductName "${APPNAME}"
 VIAddVersionKey ProductVersion "${APPFULLVERSION}"
-VIAddVersionKey Comments "${APPNAMEANDVERSION} installer - build ${INSTALLER_BUILD} / Installer Script Source ver. ${INSTALLER_VERSION} (c) 2004-2005 Mircea Bardac (IceRAM)"
+VIAddVersionKey Comments "${APPNAMEANDVERSION} installer - build ${INSTALLER_BUILD} / script ver. ${INSTALLER_VERSION} (c) ${INSTALLER_COPYRIGHT_YEAR} The Psi Team"
 VIAddVersionKey CompanyName ""
 VIAddVersionKey LegalCopyright ""
 VIAddVersionKey FileDescription "${APPNAMEANDVERSION} Installer (build ${INSTALLER_BUILD}) - Win32 Installer v${INSTALLER_VERSION}"
@@ -85,7 +85,7 @@ Var LSTR_ERR_UNINST
 
 !define XPSTYLE on
 
-BrandingText "- ${APPNAMEANDVERSION} installer - build ${INSTALLER_BUILD} / Installer Script Source ver. ${INSTALLER_VERSION} (c) 2004-2005 Mircea Bardac (IceRAM) "
+BrandingText "- ${APPNAMEANDVERSION} installer - build ${INSTALLER_BUILD} / script ver. ${INSTALLER_VERSION} (c) ${INSTALLER_COPYRIGHT_YEAR} The Psi Team "
 !define HOME_URL "http://psi-im.org/"
 
 ; Main Install settings
