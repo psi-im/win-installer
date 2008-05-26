@@ -141,7 +141,7 @@ InstallDirRegKey HKLM "Software\Affinix\${APPNAME}" ""
 PAGE custom InitRoutines
 !define MUI_PAGE_CUSTOMFUNCTION_SHOW CompNames
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "${APP_SOURCE}\COPYING"
+!insertmacro MUI_PAGE_LICENSE "${APP_SOURCE}COPYING"
 !insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
