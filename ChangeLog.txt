@@ -1,11 +1,7 @@
 ******************************************************************************
-   NSIS Installer Script for Psi 0.10 - ChangeLog
+   NSIS Installer Script for Psi - ChangeLog
     Current version: v2.0
        Release date: 2005-01-30
-      
-   Copyright © 2004-2005 Mircea Bardac (IceRAM)
-     e-mail: dev@mircea.bardac.net
-       xmpp: iceram@jabber.org
 ******************************************************************************
 
    Legend:

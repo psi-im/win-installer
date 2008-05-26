@@ -1,6 +1,9 @@
 ;*******************************************************************************
-;  psi.nsi v2.0 - NSIS script for installing Psi 0.10
-;  Copyright © 2004-2005 Mircea Bardac (IceRAM)
+;  psi.nsi - NSIS installer script for Psi
+;
+;  Copyright (c) 2004-2005 Mircea Bardac (IceRAM)
+;  E-mail: dev@mircea.bardac.net
+;  XMPP:   iceram@jabber.org
 ;
 ;  This program is free software; you can redistribute it and/or
 ;  modify it under the terms of the GNU General Public License
@@ -52,7 +55,7 @@
 ; Version information for the installer executable
 VIAddVersionKey ProductName "${APPNAME}"
 VIAddVersionKey ProductVersion "${APPFULLVERSION}"
-VIAddVersionKey Comments "${APPNAMEANDVERSION} installer - build ${INSTALLER_BUILD} / Installer Script Source ver. ${INSTALLER_VERSION} © 2004-2005 Mircea Bardac (IceRAM)"
+VIAddVersionKey Comments "${APPNAMEANDVERSION} installer - build ${INSTALLER_BUILD} / Installer Script Source ver. ${INSTALLER_VERSION} (c) 2004-2005 Mircea Bardac (IceRAM)"
 VIAddVersionKey CompanyName ""
 VIAddVersionKey LegalCopyright ""
 VIAddVersionKey FileDescription "${APPNAMEANDVERSION} Installer (build ${INSTALLER_BUILD}) - Win32 Installer v${INSTALLER_VERSION}"
@@ -102,7 +105,7 @@ var LSTR_ERR_UNINST
 
 !define XPSTYLE on
 
-BrandingText "- ${APPNAMEANDVERSION} installer - build ${INSTALLER_BUILD} / Installer Script Source ver. ${INSTALLER_VERSION} © 2004-2005 Mircea Bardac (IceRAM) "
+BrandingText "- ${APPNAMEANDVERSION} installer - build ${INSTALLER_BUILD} / Installer Script Source ver. ${INSTALLER_VERSION} (c) 2004-2005 Mircea Bardac (IceRAM) "
 !define HOME_URL "http://psi.affinix.com/"
 
 !define INSTALLER_SOURCE "C:\dev\psi_installer"
