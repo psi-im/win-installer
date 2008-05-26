@@ -108,9 +108,14 @@ var LSTR_ERR_UNINST
 BrandingText "- ${APPNAMEANDVERSION} installer - build ${INSTALLER_BUILD} / Installer Script Source ver. ${INSTALLER_VERSION} (c) 2004-2005 Mircea Bardac (IceRAM) "
 !define HOME_URL "http://psi.affinix.com/"
 
-!define INSTALLER_SOURCE "C:\dev\psi_installer"
+!define INSTALLER_HOME "C:\dev\psi_installer"
 
 ; Main Install settings
+!define FILE_SEPARATOR "/"
+!define APP_BUILD "${INSTALLER_HOME}${FILE_SEPARATOR}build${FILE_SEPARATOR}"
+!define INSTALLER_SRC "${INSTALLER_HOME}${FILE_SEPARATOR}src${FILE_SEPARATOR}"
+!define APP_SOURCE "${APP_BUILD}psi_app${FILE_SEPARATOR}"
+
 Name "${APPNAMEANDVERSION}"
 InstallDir "$PROGRAMFILES\Psi"
 !ifdef LANG_TEST_BUILD
@@ -130,14 +135,14 @@ InstallDirRegKey HKLM "Software\Affinix\${APPNAME}" ""
 
 ;--------------------------------
 ;Page settings
-!define MUI_ICON "${INSTALLER_SOURCE}\install.ico"
-!define MUI_UNICON "${INSTALLER_SOURCE}\uninstall.ico"
+!define MUI_ICON "${INSTALLER_HOME}\install.ico"
+!define MUI_UNICON "${INSTALLER_HOME}\uninstall.ico"
 
 !define MUI_HEADERIMAGE
-!define MUI_HEADERIMAGE_BITMAP "${INSTALLER_SOURCE}\psi-header-l.bmp"
-!define MUI_HEADERIMAGE_BITMAP_RTL "${INSTALLER_SOURCE}\psi-header-r.bmp"
-!define MUI_HEADERIMAGE_UNBITMAP "${INSTALLER_SOURCE}\psi-header-l.bmp"
-!define MUI_HEADERIMAGE_UNBITMAP_RTL "${INSTALLER_SOURCE}\psi-header-r.bmp"
+!define MUI_HEADERIMAGE_BITMAP "${INSTALLER_HOME}\psi-header-l.bmp"
+!define MUI_HEADERIMAGE_BITMAP_RTL "${INSTALLER_HOME}\psi-header-r.bmp"
+!define MUI_HEADERIMAGE_UNBITMAP "${INSTALLER_HOME}\psi-header-l.bmp"
+!define MUI_HEADERIMAGE_UNBITMAP_RTL "${INSTALLER_HOME}\psi-header-r.bmp"
 
 !define MUI_ABORTWARNING
 !define MUI_COMPONENTSPAGE_NODESC
@@ -148,8 +153,8 @@ InstallDirRegKey HKLM "Software\Affinix\${APPNAME}" ""
 !define MUI_FINISHPAGE_LINK "Click here to visit the Psi Homepage"
 !define MUI_FINISHPAGE_LINK_LOCATION "http://psi.affinix.com/"
 
-!define MUI_WELCOMEFINISHPAGE_BITMAP "${INSTALLER_SOURCE}\psi-l.bmp"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP "${INSTALLER_SOURCE}\psi-l.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "${INSTALLER_HOME}\psi-l.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "${INSTALLER_HOME}\psi-l.bmp"
 ;!define MUI_LICENSEPAGE_CHECKBOX
 
 ;--------------------------------
@@ -162,7 +167,7 @@ InstallDirRegKey HKLM "Software\Affinix\${APPNAME}" ""
 
 PAGE custom InitRoutines
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "${INSTALLER_SOURCE}\psi_app\COPYING"
+!insertmacro MUI_PAGE_LICENSE "${INSTALLER_HOME}\psi_app\COPYING"
 !insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
@@ -201,7 +206,7 @@ Section "!$LSTR_PSIBASE" SectionBase
  !include "psi_files_install.nsi"
 !else
   SetOutPath "$INSTDIR\"
-  File "${INSTALLER_SOURCE}\psi_app\COPYING" ;install only one file when LANG_TEST_BUILD
+  File "${INSTALLER_HOME}\psi_app\COPYING" ;install only one file when LANG_TEST_BUILD
 !endif
   SetOutPath "$INSTDIR\"
   !insertmacro "CreateURL" "Psi - Home page" "http://psi.affinix.com/"

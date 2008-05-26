@@ -44,7 +44,7 @@ for lang in sorted(langlist.keys()):
 	flanginst.write("Section /o \""+lang+"\" "+sectionid+"\n")
 	flanginst.write("\tSetOverwrite on\n")
 	flanginst.write("\tSetOutPath \"$INSTDIR\\\"\n")
-	flanginst.write("\tFile \"${INSTALLER_SOURCE}\\psi_lang\\"+filename+"\"\n")
+	flanginst.write("\tFile \"${INSTALLER_HOME}\\psi_lang\\"+filename+"\"\n")
 	flanginst.write("SectionEnd\n\n")
 	flanguninst.write("\tDelete \"$INSTDIR\\"+filename+"\"\n")
 	if langid!="":
