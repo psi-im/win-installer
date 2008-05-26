@@ -33,15 +33,6 @@
 ;!define BUILD_WITH_LANGPACKS
 ; ^ comment if you want to build the installer without language packs
 
-;!define LANG_TEST_BUILD
-; ^ uncomment if you want to build a test installer
-
-!ifdef LANG_TEST_BUILD
- !ifndef BUILD_WITH_LANGPACKS
-  !define BUILD_WITH_LANGPACKS
- !endif
-!endif
-
 ; Application name
 !define APPNAME "Psi"
 !define APPVERSION "0.10"
@@ -62,17 +53,12 @@ VIAddVersionKey FileDescription "${APPNAMEANDVERSION} Installer (build ${INSTALL
 VIAddVersionKey FileVersion "${INSTALLER_VERSION}b${INSTALLER_BUILD}"
 VIAddVersionKey InternalName "${APPNAMEANDVERSION} Installer  (build ${INSTALLER_BUILD}) - Win32 Installer v${INSTALLER_VERSION}"
 VIAddVersionKey LegalTrademarks ""
-!ifdef LANG_TEST_BUILD
-  VIAddVersionKey OriginalFilename "${LCAPPNAME}-${APPFULLVERSION}-win-langtest.exe"
-  VIAddVersionKey PrivateBuild "Language Packs Included: all available"
-!else
- !ifdef BUILD_WITH_LANGPACKS
+!ifdef BUILD_WITH_LANGPACKS
   VIAddVersionKey OriginalFilename "${LCAPPNAME}-${APPFULLVERSION}-win-setup-i18n.exe"
   VIAddVersionKey PrivateBuild "Language Packs Included: yes"
- !else
+!else
   VIAddVersionKey OriginalFilename "${LCAPPNAME}-${APPFULLVERSION}-win-setup.exe"
   VIAddVersionKey PrivateBuild "Language Packs Included: none"
- !endif
 !endif
 VIAddVersionKey SpecialBuild "Build number: ${INSTALLER_BUILD}"
 VIProductVersion "${APPVERSION}.0.${INSTALLER_BUILD}"
@@ -118,14 +104,10 @@ BrandingText "- ${APPNAMEANDVERSION} installer - build ${INSTALLER_BUILD} / Inst
 
 Name "${APPNAMEANDVERSION}"
 InstallDir "$PROGRAMFILES\Psi"
-!ifdef LANG_TEST_BUILD
- OutFile "${LCAPPNAME}-${APPFULLVERSION}-win-langtest.exe"
-!else
- !ifdef BUILD_WITH_LANGPACKS
+!ifdef BUILD_WITH_LANGPACKS
   OutFile "${LCAPPNAME}-${APPFULLVERSION}-win-setup-i18n.exe"
- !else
+!else
   OutFile "${LCAPPNAME}-${APPFULLVERSION}-win-setup.exe"
- !endif
 !endif
 
 InstallDirRegKey HKLM "Software\Affinix\${APPNAME}" ""
@@ -201,13 +183,9 @@ Section "!$LSTR_PSIBASE" SectionBase
   ; Set Section properties
   SetOverwrite on
   SectionIn RO
+  
   ; Set Section Files and Shortcuts
-!ifndef LANG_TEST_BUILD
- !include "${APP_BUILD}psi_files_install.nsh"
-!else
-  SetOutPath "$INSTDIR\"
-  File "${APP_SOURCE}\COPYING" ;install only one file when LANG_TEST_BUILD
-!endif
+  !include "${APP_BUILD}psi_files_install.nsh"
   SetOutPath "$INSTDIR\"
   !insertmacro "CreateURL" "Psi - Home page" "http://psi.affinix.com/"
   !insertmacro "CreateURL" "Psi - Forum" "http://psi.affinix.com/forums/"
