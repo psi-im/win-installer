@@ -2,7 +2,11 @@
 
 .PHONY: all languages files build clean
 
-all: languages files build
+all: path_config languages files build
+
+path_config:
+	sed -i.orig 's|!define INSTALLER_HOME.*|!define INSTALLER_HOME "$(CURDIR)"|g' config.nsh
+	rm config.nsh.orig
 
 languages:
 	@cd tools; ./preplang ../app/psi_lang
