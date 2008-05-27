@@ -21,6 +21,7 @@ download_lang:
 
 download_psi_nightly:
 	rm -rf app/*.zip
+	mkdir -p app
 	wget -nv http://www.kismith.co.uk/files/psi/windows/nightlies/ -O _tmplist
 	@f=$$(cat _tmplist | grep .zip | tail -n1 | sed 's|.*HREF="\(.*\)">.*|\1|g'); wget $(SRC_APP)/$$f -O app/$$f
 	rm -f _tmplist
