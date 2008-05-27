@@ -1,6 +1,7 @@
 # Makefile for the Psi Installer
 
 SRC_LANG=http://psi-im.org/download/lang
+SRC_APP=http://www.kismith.co.uk/files/psi/windows/nightlies
 
 .PHONY: all languages files build clean
 
@@ -16,6 +17,12 @@ download_lang:
 			wget -nv $(SRC_LANG)/$$l -O app/psi_lang/$$l;\
 		fi;\
 	done
+	rm -f _tmplist
+
+download_psi_nightly:
+	rm -rf app/*.zip
+	wget -nv http://www.kismith.co.uk/files/psi/windows/nightlies/ -O _tmplist
+	@f=$$(cat _tmplist | grep .zip | tail -n1 | sed 's|.*HREF="\(.*\)">.*|\1|g'); wget $(SRC_APP)/$$f -O app/$$f
 	rm -f _tmplist
 
 
