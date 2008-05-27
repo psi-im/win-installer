@@ -5,7 +5,7 @@ SRC_APP=http://www.kismith.co.uk/files/psi/windows/nightlies
 
 .PHONY: all languages files build clean
 
-all: path_config languages files build
+all: languages files build
 
 
 download_lang:
@@ -38,7 +38,7 @@ files:
 	@# detect zip file in build dir and use it
 	@f=$$(ls -1 app/*.zip | head -n1); cd tools; ./prepfiles ../$$f
 
-build:
+build: path_config
 	cd src; makensis psi.nsi
 
 clean:
