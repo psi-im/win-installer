@@ -10,8 +10,6 @@
 
 !define INSTALLER_HOME "/Volumes/Home/Projects/psi/win-installer/psi-0.12"
 
-!define INSTALLER_COPYRIGHT_YEAR "2004-2008"
-
 !define INSTALLER_BUILD "1"
 ; ^ update whenever you add something to the installer and rebuild it
 ;   without changing APPVERSION

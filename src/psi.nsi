@@ -1,7 +1,7 @@
 ;*******************************************************************************
 ;  psi.nsi - NSIS installer script for Psi
 ;
-;  Copyright (c) 2004-2005 Mircea Bardac (IceRAM)
+;  Copyright (c) 2004-2008 Mircea Bardac (IceRAM)
 ;  E-mail: dev@mircea.bardac.net
 ;  XMPP:   iceram@jabber.org
 ;
@@ -36,6 +36,7 @@
 
 !define LCAPPNAME "psi" ; lowercase APPNAME
 
+!define INSTALLER_COPYRIGHT_YEAR "2004-2008"
 
 ; Version information for the installer executable
 VIAddVersionKey ProductName "${APPNAME}"
