@@ -38,8 +38,12 @@ files:
 	@# detect zip file in build dir and use it
 	@f=$$(ls -1 app/*.zip | head -n1); cd tools; ./prepfiles ../$$f
 
+psi_installer:
+	rm -f psi_installler.zip
+	zip -r psi_installer.zip src/ build/ *.*
+
 build: path_config
 	cd src; makensis psi.nsi
 
 clean:
-	rm -rf build
+	rm -rf build psi_installer.zip
