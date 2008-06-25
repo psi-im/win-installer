@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# PrepLang v1.0
-# Copyright (c) 2005 Mircea Bardac
-# E-mail: dev AT mircea.bardac.net
+# PrepLang v2.0
+# Copyright (c) 2005-2008 Mircea Bardac
+# E-mail: dev@mircea.bardac.net
 
 # Script to prepare the (un)install file lists & setup for the language files
 # Start from: installer/tools/
@@ -11,58 +11,85 @@
 
 import os
 import string
-import array
 import sys
 import shutil
 
+# langmap[<LanguageKey>] = [<SectionName>,<LanguageID>,<LanguageName>,<FileList>]
+langmap = {}
+
+# read language mappings
+fmap = open("psi_lang.map")
+for s in fmap.readlines():
+	s = s.replace("\n","")
+	# langsettings[<LanguageKey>,<SectionName>,<LanguageID>,<LanguageName>]
+	langsettings = s.split('\t')
+	if langsettings[0] == '': continue
+	if s[0] == '#': continue
+	lang_key = langsettings[0]
+	langmap[lang_key] = {}
+	langmap[lang_key]['section_id'] = langsettings[1]
+	langmap[lang_key]['lang_id'] = langsettings[2]
+	langmap[lang_key]['lang_name'] = langsettings[3]
+	langmap[lang_key]['files'] = []
+fmap.close()
+
 # create build paths if they do not exist
+# they are needed to place translation files in the installer
 if not os.path.exists("../build"):
 	os.mkdir("../build");
 if not os.path.exists("../build/psi_lang"):
 	os.mkdir("../build/psi_lang");
 
-fmap=open("psi_lang.map")
-
-flanginst=open("../build/psi_lang_install.nsh","w")
-flangsetup=open("../build/psi_lang_setup.nsh","w")
-flanguninst=open("../build/psi_lang_uninstall.nsh","w")
-
-langmap={}
-for s in fmap.readlines():
-	s=s.replace("\n","")
-	langsettings=s.split('\t')
-	if langsettings[0]!='':
-		if s[0]=='#': continue
-		langmap[langsettings[0]]=langsettings[1:]
-
-langlist={}
-for file in os.listdir(sys.argv[1]):
-	if os.path.isdir(sys.argv[1]+"/"+file): continue
-	shutil.copyfile(sys.argv[1]+"/"+file, "../build/psi_lang/"+file);
-	if (not langmap.has_key(file)):
+# read files in translation directory
+lang_src_dir = sys.argv[1]
+langlist = {}
+for file in os.listdir(lang_src_dir):
+	if os.path.isdir(lang_src_dir+"/"+file): continue
+	# file format: "app_langkey.extension"
+	lang_key = file[file.find('_') + 1:file.find('.')]
+	if (not langmap.has_key(lang_key)):
 		print "!Language definition not found for file: "+file+" (skipped)"
 		continue
 	else:
-		print "Language definition found for: "+file+" = "+langmap[file][2]
-		langlist[langmap[file][2]]=[file, langmap[file][0], langmap[file][1]]
+		shutil.copyfile(lang_src_dir + "/" + file, "../build/psi_lang/" + file);
+		print "Language definition found for: "+file+" = "+langmap[lang_key]['lang_name']
+		langmap[lang_key]['files'].append(file)
 
-for lang in sorted(langlist.keys()):
-	filename=langlist[lang][0]
-	sectionid=langlist[lang][1]
-	langid=langlist[lang][2]
-	flanginst.write("; "+lang+"\n")
-	flanginst.write("Section /o \""+lang+"\" "+sectionid+"\n")
+# generate translation related installer content
+flanginst = open("../build/psi_lang_install.nsh","w")
+flangsetup = open("../build/psi_lang_setup.nsh","w")
+flanguninst = open("../build/psi_lang_uninstall.nsh","w")
+
+for lang_key in sorted(langmap.keys()):
+	files=langmap[lang_key]['files']
+	if len(files) == 0: continue
+	
+	section_id=langmap[lang_key]['section_id']
+	lang_id=langmap[lang_key]['lang_id']
+	lang_name=langmap[lang_key]['lang_name']
+	
+	# psi_lang_install.nsh
+	flanginst.write("; "+lang_name+"\n")
+	flanginst.write("Section /o \""+lang_name+"\" "+section_id+"\n")
 	flanginst.write("\tSetOverwrite on\n")
 	flanginst.write("\tSetOutPath \"$INSTDIR\\\"\n")
-	flanginst.write("\tFile \"${APP_BUILD}psi_lang${FILE_SEPARATOR}"+filename+"\"\n")
+	for filename in files:
+		flanginst.write("\tFile \"${APP_BUILD}psi_lang${FILE_SEPARATOR}" + filename + "\"\n")
 	flanginst.write("SectionEnd\n\n")
-	flanguninst.write("\tDelete \"$INSTDIR\\"+filename+"\"\n")
-	if langid!="":
-		flangsetup.write("\tStrCmp $LANGUAGE ${"+langid+"} 0 +2\n")
-		flangsetup.write("\t\tSectionSetFlags ${"+sectionid+"} ${SF_SELECTED}\n")
+	
+	# psi_lang_uninstall.nsh
+	for filename in files:
+		flanguninst.write("\tDelete \"$INSTDIR\\" + filename + "\"\n")
+	
+	# psi_lang_setup.nsh
+	if lang_id!="":
+		flangsetup.write("\tStrCmp $LANGUAGE ${" + lang_id + "} 0 +2\n")
+		flangsetup.write("\t\tSectionSetFlags ${" + section_id + "} ${SF_SELECTED}\n")
 	else:
-		flangsetup.write("\t; No "+lang+" AutoSelection\n")
+		flangsetup.write("\t; No "+lang_name+" AutoSelection\n")
 
+# close open resources
 flanginst.close()
 flangsetup.close()
 flanguninst.close()
+

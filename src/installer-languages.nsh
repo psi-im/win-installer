@@ -25,24 +25,35 @@
 ; use UI_LANGUAGE_LOAD instead of MUI_LANGUAGE if you have a
 ; translation file for the interface components in a file like
 ; lang\psi_installer_LANG.nsh
+; 
+; Languages for the installer supported by NSIS:
+; http://cvs.sourceforge.net/viewcvs.py/nsis/NSIS/Contrib/Language%20files/
 
-  !insertmacro UI_LANGUAGE_LOAD "English"
-  !insertmacro UI_LANGUAGE_LOAD "Catalan"
-  !insertmacro UI_LANGUAGE_LOAD "Czech"
-  !insertmacro MUI_LANGUAGE "SimpChinese"
-  !insertmacro UI_LANGUAGE_LOAD "German"
-  !insertmacro MUI_LANGUAGE "Estonian"
-  !insertmacro UI_LANGUAGE_LOAD "Spanish"
-  !insertmacro UI_LANGUAGE_LOAD "French"
-  !insertmacro UI_LANGUAGE_LOAD "Greek"
-  !insertmacro MUI_LANGUAGE "Italian"
-  !insertmacro MUI_LANGUAGE "Japanese"
-  !insertmacro UI_LANGUAGE_LOAD "Macedonian"
-  !insertmacro UI_LANGUAGE_LOAD "Dutch"
-  !insertmacro UI_LANGUAGE_LOAD "Polish"
-  !insertmacro MUI_LANGUAGE "Russian"
-  !insertmacro MUI_LANGUAGE "Slovak"
-  !insertmacro MUI_LANGUAGE "Swedish"
+  !insertmacro UI_LANGUAGE_LOAD "English"      ; -
+  !insertmacro MUI_LANGUAGE "Bulgarian"        ; bg
+  !insertmacro UI_LANGUAGE_LOAD "Catalan"      ; ca
+  !insertmacro UI_LANGUAGE_LOAD "Czech"        ; cz
+  !insertmacro MUI_LANGUAGE "SimpChinese"      ; zh
+  !insertmacro UI_LANGUAGE_LOAD "German"       ; de
+  !insertmacro MUI_LANGUAGE "Hungarian"        ; hu
+; Esperanto - no NSIS support                  ; eo
+  !insertmacro MUI_LANGUAGE "Estonian"         ; et
+  !insertmacro UI_LANGUAGE_LOAD "Spanish"      ; es
+  !insertmacro UI_LANGUAGE_LOAD "French"       ; fr
+  !insertmacro UI_LANGUAGE_LOAD "Greek"        ; el
+  !insertmacro MUI_LANGUAGE "Italian"          ; it
+  !insertmacro MUI_LANGUAGE "Japanese"         ; jp
+  !insertmacro UI_LANGUAGE_LOAD "Macedonian"   ; mk
+  !insertmacro UI_LANGUAGE_LOAD "Dutch"        ; nl
+  !insertmacro UI_LANGUAGE_LOAD "Polish"       ; pl
+  !insertmacro MUI_LANGUAGE "Portuguese"       ; pt
+  !insertmacro MUI_LANGUAGE "PortugueseBR"     ; pt_BR
+  !insertmacro MUI_LANGUAGE "Russian"          ; ru
+  !insertmacro MUI_LANGUAGE "Slovak"           ; sk
+  !insertmacro MUI_LANGUAGE "Slovenian"        ; sl
+  !insertmacro MUI_LANGUAGE "SerbianLatin"     ; sr@Latn
+  !insertmacro MUI_LANGUAGE "Swedish"          ; se
+; Vietnamese - no NSIS support                 ; vi
 
 ; ********************************
 

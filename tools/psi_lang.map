@@ -1,20 +1,31 @@
 # Language Mapping File
 
 # Structure:
-# <FileName> <SectionName> <LanguageID> <LanguageName>
-# <LanguageID> is the NSIS language ID - can be missing
+# <LanguageKey>	<SectionName>	<LanguageID>	<LanguageName>
+# above fields are separated by tabs
+# <LanguageKey> is the language unique code (example: xx in psi_xx.qm)
+# There might be multiple translation files matching the format app_xx.extension
+# <LanguageID> is the NSIS language ID - can be empty
 
-psi_cs.qm	LangCS	LANG_FRENCH	Czech
-psi_nl.qm	LangNL	LANG_DUTCH	Dutch
-psi_et.qm	LangET	LANG_ESTONIAN	Estonian
-psi_fr.qm	LangFR	LANG_FRENCH	French
-psi_de.qm	LangDE	LANG_GERMAN	German
-psi_el.qm	LangEL	LANG_GREEK	Greek
-psi_mk.qm	LangMK	LANG_MACEDONIAN	Macedonian
-psi_pl.qm	LangPL	LANG_POLISH	Polish
-psi_zh.qm	LangZH	LANG_SIMPCHINESE	Simplified Chinese
-psi_es.qm	LangES	LANG_SPANISH	Spanish
-psi_ru.qm	LangRU	LANG_RUSSIAN	Russian
-psi_sk.qm	LangSK	LANG_SLOVAK	Slovak
-psi_vi.qm	LangVI		Vietnamese
+bg	LangBG	LANG_BULGARIAN	Bulgarian
+ca	LangCA	LANG_CATALAN	Catalan
+cs	LangCS	LANG_CZECH	Czech
+nl	LangNL	LANG_DUTCH	Dutch
+et	LangET	LANG_ESTONIAN	Estonian
+eo	LangEO		Esperanto
+fr	LangFR	LANG_FRENCH	French
+de	LangDE	LANG_GERMAN	German
+el	LangEL	LANG_GREEK	Greek
+hu	LangHU	LANG_HUNGARIAN	Hungarian
+mk	LangMK	LANG_MACEDONIAN	Macedonian
+pl	LangPL	LANG_POLISH	Polish
+pt	LangPT	LANG_PORTUGUESE	Portuguese
+pt_BR	LangPTBR	LANG_PORTUGUESEBR	Portuguese (BR)
+zh	LangZH	LANG_SIMPCHINESE	Simplified Chinese
+es	LangES	LANG_SPANISH	Spanish
+ru	LangRU	LANG_RUSSIAN	Russian
+sr@Latn	LangSRLat	LANG_SERBIANLATIN	Serbian (Latin)
+sk	LangSK	LANG_SLOVAK	Slovak
+sl	LangSL	LANG_SLOVENIAN	Slovenian
+vi	LangVI		Vietnamese
 
