@@ -25,6 +25,9 @@ for s in fmap.readlines():
 	langsettings = s.split('\t')
 	if langsettings[0] == '': continue
 	if s[0] == '#': continue
+	if len(langsettings) < 4:
+		print "Error: Invalid number of fields in language specification:", s
+		continue
 	lang_key = langsettings[0]
 	langmap[lang_key] = {}
 	langmap[lang_key]['section_id'] = langsettings[1]
