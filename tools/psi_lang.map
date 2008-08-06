@@ -3,9 +3,18 @@
 # Structure:
 # <LanguageKey>	<SectionName>	<LanguageID>	<LanguageName>
 # above fields are separated by tabs
+
 # <LanguageKey> is the language unique code (example: xx in psi_xx.qm)
 # There might be multiple translation files matching the format app_xx.extension
+
+# <SectionName> is the name of the section used internally by NSIS
+# (usually in the format LangXX, where XX is the language code)
+
 # <LanguageID> is the NSIS language ID - can be empty
+# http://nsis.svn.sourceforge.net/viewvc/nsis/NSIS/trunk/Contrib/MakeLangId/MakeLangId.cpp?view=markup
+
+# <LanguageName> is the name of the language, used in the installer for the
+# list of languages
 
 bg	LangBG	LANG_BULGARIAN	Bulgarian
 ca	LangCA	LANG_CATALAN	Catalan
