@@ -32,9 +32,12 @@ pt	LangPT	LANG_PORTUGUESE	Portuguese
 pt_BR	LangPTBR	LANG_PORTUGUESEBR	Portuguese (BR)
 zh	LangZH	LANG_SIMPCHINESE	Simplified Chinese
 es	LangES	LANG_SPANISH	Spanish
+es_ES	LangESES	LANG_SPANISH	Spanish
 ru	LangRU	LANG_RUSSIAN	Russian
 sr@Latn	LangSRLat	LANG_SERBIANLATIN	Serbian (Latin)
 sk	LangSK	LANG_SLOVAK	Slovak
 sl	LangSL	LANG_SLOVENIAN	Slovenian
+uk	LangUK	LANG_UKRAINIAN	Ukrainian
+ur_pk	LangURPK	LANG_URDU	Urdu
 vi	LangVI		Vietnamese
 
