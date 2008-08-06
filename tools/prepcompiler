@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Mircea Bardac
+# dev@mircea.bardac.net
+
+# Usage: ./prep_compiler <NSISversion>
+# Example (version 2.37):
+# ./prep_compiler 2.37
+
+# The script will install NSIS in $(pwd)/nsis
+
+# Try multiple times if download doesn't work.
+# For me, Sourceforge didn't serve properly the .zip file the first time I tried.
+
+ver=$1
+
+if [ $# != 1 ]; then
+	echo "Wrong number of parameters!"
+	exit 1
+fi
+
+rm -rf nsis_packages
+mkdir -p nsis_packages
+#download latest version:
+## precompiled for Windows (zip)
+[ ! -e nsis_packages/nsis-$ver.zip ] && \
+	wget --tries=2 --timeout=10 http://dl.sourceforge.net/nsis/nsis-$ver.zip -O nsis_packages/nsis-$ver.zip
+## sources (tar.bz2)
+[ ! -e nsis_packages/nsis-$ver-src.tar.bz2 ] && \
+	wget --tries=2 --timeout=10 http://dl.sourceforge.net/nsis/nsis-$ver-src.tar.bz2 -O nsis_packages/nsis-$ver-src.tar.bz2
+
+echo "Unpacking precompiled Windows NSIS compiler..."
+unzip nsis_packages/nsis-$ver.zip >/dev/null
+
+echo "Unpacking sources..."
+tar jxf nsis_packages/nsis-$ver-src.tar.bz2 >/dev/null
+
+# prepare the compiler dir
+rm -rf nsis
+mv nsis-$ver nsis
+install_path="$(pwd)/nsis"
+
+echo "Install dir: $install_path"
+
+echo "Building NSIS compiler..."
+cd nsis-$ver-src
+scons MSTOOLKIT=no PREFIX_DATA=$install_path PREFIX_BIN=$install_path PREFIX_CONF=$install_path \
+	MSTOOLKIT=no SKIPSTUBS=all SKIPPLUGINS=all SKIPUTILS=all SKIPMISC=all 2>&1 | grep -v warning
+echo "Installing NSIS compiler"
+cp build/release/makensis/makensis $install_path
+cd ..
+
+echo "Cleaning up..."
+rm -rf nsis-$ver-src
+
+echo "Done."
+echo
