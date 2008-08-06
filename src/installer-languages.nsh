@@ -27,7 +27,7 @@
 ; lang\psi_installer_LANG.nsh
 ; 
 ; Languages for the installer supported by NSIS:
-; http://cvs.sourceforge.net/viewcvs.py/nsis/NSIS/Contrib/Language%20files/
+; http://nsis.svn.sourceforge.net/viewvc/nsis/NSIS/trunk/Contrib/Language%20files/
 
   !insertmacro UI_LANGUAGE_LOAD "English"      ; -
   !insertmacro MUI_LANGUAGE "Bulgarian"        ; bg
@@ -38,7 +38,7 @@
   !insertmacro MUI_LANGUAGE "Hungarian"        ; hu
 ; Esperanto - no NSIS support                  ; eo
   !insertmacro MUI_LANGUAGE "Estonian"         ; et
-  !insertmacro UI_LANGUAGE_LOAD "Spanish"      ; es
+  !insertmacro UI_LANGUAGE_LOAD "Spanish"      ; es, es_ES
   !insertmacro UI_LANGUAGE_LOAD "French"       ; fr
   !insertmacro UI_LANGUAGE_LOAD "Greek"        ; el
   !insertmacro MUI_LANGUAGE "Italian"          ; it
@@ -53,6 +53,8 @@
   !insertmacro MUI_LANGUAGE "Slovenian"        ; sl
   !insertmacro MUI_LANGUAGE "SerbianLatin"     ; sr@Latn
   !insertmacro MUI_LANGUAGE "Swedish"          ; se
+  !insertmacro MUI_LANGUAGE "Ukrainian"        ; uk
+; Urdu - no NSIS support                       ; ur_pk
 ; Vietnamese - no NSIS support                 ; vi
 
 ; ********************************
