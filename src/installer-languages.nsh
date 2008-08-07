@@ -34,6 +34,7 @@
   !insertmacro UI_LANGUAGE_LOAD "Catalan"      ; ca
   !insertmacro UI_LANGUAGE_LOAD "Czech"        ; cz
   !insertmacro MUI_LANGUAGE "SimpChinese"      ; zh
+  !insertmacro MUI_LANGUAGE "TradChinese"      ; zh_TW
   !insertmacro UI_LANGUAGE_LOAD "German"       ; de
   !insertmacro MUI_LANGUAGE "Hungarian"        ; hu
 ; Esperanto - no NSIS support                  ; eo

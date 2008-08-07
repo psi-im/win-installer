@@ -30,7 +30,8 @@ mk	LangMK	LANG_MACEDONIAN	Macedonian
 pl	LangPL	LANG_POLISH	Polish
 pt	LangPT	LANG_PORTUGUESE	Portuguese
 pt_BR	LangPTBR	LANG_PORTUGUESEBR	Portuguese (BR)
-zh	LangZH	LANG_SIMPCHINESE	Simplified Chinese
+zh	LangZH	LANG_SIMPCHINESE	Chinese (Simplified)
+zh_TW	LangZHTW	LANG_TRADCHINESE	Chinese (Traditional)
 es	LangES	LANG_SPANISH	Spanish
 es_ES	LangESES	LANG_SPANISH	Spanish
 ru	LangRU	LANG_RUSSIAN	Russian
