@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# PrepFiles v1.0
+# PrepFiles v1.1
 # Copyright (c) 2005 Mircea Bardac
 # E-mail: dev AT mircea.bardac.net
 
@@ -35,8 +35,11 @@ echo ";" >> $out_uninst
 echo >> $out_uninst
 
 cat directories.list | while read cline; do
-	#echo $cline
 	outpath=$(echo "$cline" | sed "s|$indir|\$INSTDIR|g")
+	# if directory paths contain / (as it happens on a Unix system),
+	# replace them with \ (2 times because the output is echo-ed with -e
+	# and echo -e "\\" becomes "\"
+	outpath=$(echo "$outpath" | sed 's|\/|\\\\|g')
 	echo -e "\tSetOutPath \"$outpath\"" >> $out_inst
 	find $cline -type f | grep -v "$cline/.*/.*" | while read cfile; do
 		fpath=$(echo "$cfile" | sed -e "s|$indir||g")
@@ -49,6 +52,8 @@ done
 
 cat directories.list | sort -r | while read cdir; do
 	outpath=$(echo "$cdir" | sed "s|$indir|\$INSTDIR|g")
+	# replace / in directory paths with \\ (see above comment)
+	outpath=$(echo "$outpath" | sed 's|\/|\\\\|g')
 	echo -e "\tRMDir \"$outpath\"" >> $out_uninst
 done
 
