@@ -43,6 +43,8 @@ cat directories.list | while read cline; do
 	echo -e "\tSetOutPath \"$outpath\"" >> $out_inst
 	find $cline -type f | grep -v "$cline/.*/.*" | while read cfile; do
 		fpath=$(echo "$cfile" | sed -e "s|$indir||g")
+		# replace / in directory paths with \\ (see above comment)
+		fpath=$(echo "$fpath" | sed 's|\/|\\\\|g')
 		echo -e "\tFile \"\${APP_SOURCE}$fpath\"" >> $out_inst
 		echo -e "\tDelete \"\$INSTDIR$fpath\"" >> $out_uninst
 		done

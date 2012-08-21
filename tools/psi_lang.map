@@ -26,6 +26,7 @@ fr	LangFR	LANG_FRENCH	French
 de	LangDE	LANG_GERMAN	German
 el	LangEL	LANG_GREEK	Greek
 hu	LangHU	LANG_HUNGARIAN	Hungarian
+it	LangIT	LANG_ITALIAN	Italian
 mk	LangMK	LANG_MACEDONIAN	Macedonian
 pl	LangPL	LANG_POLISH	Polish
 pt	LangPT	LANG_PORTUGUESE	Portuguese
@@ -38,7 +39,8 @@ ru	LangRU	LANG_RUSSIAN	Russian
 sr@Latn	LangSRLat	LANG_SERBIANLATIN	Serbian (Latin)
 sk	LangSK	LANG_SLOVAK	Slovak
 sl	LangSL	LANG_SLOVENIAN	Slovenian
+sv	LangSV	LANG_SWEDISH	Swedish
 uk	LangUK	LANG_UKRAINIAN	Ukrainian
-ur_pk	LangURPK	LANG_URDU	Urdu
+ur_PK	LangURPK	LANG_URDU	Urdu
 vi	LangVI		Vietnamese
 
