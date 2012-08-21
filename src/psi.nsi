@@ -114,7 +114,7 @@ Name "${APPNAMEANDVERSION}"
 !endif
 !endif
 
-InstallDirRegKey HKLM "Software\Affinix\${APPNAME}" ""
+InstallDirRegKey HKLM "Software\psi-im.org\${APPNAME}" ""
 
 ; Modern interface settings
 !include "MUI.nsh"
@@ -148,7 +148,7 @@ InstallDirRegKey HKLM "Software\Affinix\${APPNAME}" ""
 
   ;Remember the installer language
   !define MUI_LANGDLL_REGISTRY_ROOT "HKLM"
-  !define MUI_LANGDLL_REGISTRY_KEY "Software\Affinix\${APPNAME}"
+  !define MUI_LANGDLL_REGISTRY_KEY "Software\psi-im.org\${APPNAME}"
   !define MUI_LANGDLL_REGISTRY_VALUENAME "Installer Language"
 
 PAGE custom InitRoutines
@@ -250,14 +250,14 @@ SectionEnd
 
 Section -FinishSection
  StrCmp $RUN_BY_ADMIN "true" lastsettings_is_admin
-  WriteRegStr HKCU "Software\Affinix\${APPNAME}" "" "$INSTDIR"
-  WriteRegStr HKCU "Software\Affinix\${APPNAME}" "Version" "${APPFULLVERSION}"
+  WriteRegStr HKCU "Software\psi-im.org\${APPNAME}" "" "$INSTDIR"
+  WriteRegStr HKCU "Software\psi-im.org\${APPNAME}" "Version" "${APPFULLVERSION}"
   WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "DisplayName" "${APPNAME} (remove only)"
   WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "UninstallString" "$INSTDIR\uninstall.exe"
   Goto lastsettings_done
  lastsettings_is_admin:
-  WriteRegStr HKLM "Software\Affinix\${APPNAME}" "" "$INSTDIR"
-  WriteRegStr HKLM "Software\Affinix\${APPNAME}" "Version" "${APPFULLVERSION}"
+  WriteRegStr HKLM "Software\psi-im.org\${APPNAME}" "" "$INSTDIR"
+  WriteRegStr HKLM "Software\psi-im.org\${APPNAME}" "Version" "${APPFULLVERSION}"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "DisplayName" "${APPNAME} (remove only)"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "UninstallString" "$INSTDIR\uninstall.exe"
 
@@ -431,11 +431,11 @@ Section Uninstall
  Pop $R0
  StrCmp $R0 "true" uninstall_is_admin
    DeleteRegKey HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}"
-   DeleteRegKey HKCU "Software\Affinix\${APPNAME}"
+   DeleteRegKey HKCU "Software\psi-im.org\${APPNAME}"
    Goto uninstall_done
   uninstall_is_admin:
    DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}"
-   DeleteRegKey HKLM "Software\Affinix\${APPNAME}"
+   DeleteRegKey HKLM "Software\psi-im.org\${APPNAME}"
   uninstall_done:
 
   ; Delete self
@@ -492,11 +492,11 @@ Function UninstallPreviousPsi
  StrCpy $RUN_BY_ADMIN $R0 ; saving information
  StrCmp $R0 "true" unppsi_is_admin
   ReadRegStr $R0 HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "UninstallString"
-	ReadRegStr $R1 HKCU "Software\Affinix\${APPNAME}" ""
+	ReadRegStr $R1 HKCU "Software\psi-im.org\${APPNAME}" ""
   goto unppsi_done
  unppsi_is_admin:
   ReadRegStr $R0 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "UninstallString"
-	ReadRegStr $R1 HKLM "Software\Affinix\${APPNAME}" ""
+	ReadRegStr $R1 HKLM "Software\psi-im.org\${APPNAME}" ""
  unppsi_done:
   ; $R0 holds the path to the uninstaller
   ; $R1 holds the install dir
