@@ -26,7 +26,7 @@
 !define INSTALLER_VERSION "2.0"
 
 ; Psi Installer Configuration File
-!include "../config.nsh"
+!include "..\config.nsh"
 
 ; Application name
 !define APPNAME "Psi"
@@ -95,11 +95,23 @@ BrandingText "- ${APPNAMEANDVERSION} installer - build ${INSTALLER_BUILD} / scri
 !define APP_SOURCE "${APP_BUILD}psi_app${FILE_SEPARATOR}"
 
 Name "${APPNAMEANDVERSION}"
-InstallDir "$PROGRAMFILES\${APPNAME}"
-!ifdef BUILD_WITH_LANGPACKS
-  OutFile "${APP_BUILD}${LCAPPNAME}-${APPFULLVERSION}-win-setup.exe"
+!ifdef BUILD_32
+  InstallDir "$PROGRAMFILES\${APPNAME}"
 !else
-  OutFile "${APP_BUILD}${LCAPPNAME}-${APPFULLVERSION}-win-setup-base.exe"
+  InstallDir "$PROGRAMFILES64\${APPNAME}"
+!endif
+!ifdef BUILD_WITH_LANGPACKS
+!ifdef BUILD_32
+  OutFile "${APP_BUILD}${LCAPPNAME}-${APPFULLVERSION}-win32-setup.exe"
+!else
+  OutFile "${APP_BUILD}${LCAPPNAME}-${APPFULLVERSION}-win64-setup.exe"
+!endif
+!else
+!ifdef BUILD_32
+  OutFile "${APP_BUILD}${LCAPPNAME}-${APPFULLVERSION}-win32-setup-base.exe"
+!else
+  OutFile "${APP_BUILD}${LCAPPNAME}-${APPFULLVERSION}-win64-setup-base.exe"
+!endif
 !endif
 
 InstallDirRegKey HKLM "Software\Affinix\${APPNAME}" ""
