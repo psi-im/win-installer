@@ -36,7 +36,7 @@
 
 !define LCAPPNAME "psi" ; lowercase APPNAME
 
-!define INSTALLER_COPYRIGHT_YEAR "2004-2008"
+!define INSTALLER_COPYRIGHT_YEAR "2004-2012"
 
 ; Version information for the installer executable
 VIAddVersionKey ProductName "${APPNAME}"
@@ -49,10 +49,18 @@ VIAddVersionKey FileVersion "${INSTALLER_VERSION}b${INSTALLER_BUILD}"
 VIAddVersionKey InternalName "${APPNAMEANDVERSION} Installer  (build ${INSTALLER_BUILD}) - Win32 Installer v${INSTALLER_VERSION}"
 VIAddVersionKey LegalTrademarks ""
 !ifdef BUILD_WITH_LANGPACKS
-  VIAddVersionKey OriginalFilename "${LCAPPNAME}-${APPFULLVERSION}-win-setup.exe"
+!ifdef BUILD_32
+  VIAddVersionKey OriginalFilename "${LCAPPNAME}-${APPFULLVERSION}-win32-setup.exe"
+!else
+  VIAddVersionKey OriginalFilename "${LCAPPNAME}-${APPFULLVERSION}-win64-setup.exe"
+!endif
   VIAddVersionKey PrivateBuild "Language Packs Included: yes"
 !else
-  VIAddVersionKey OriginalFilename "${LCAPPNAME}-${APPFULLVERSION}-win-setup-base.exe"
+!ifdef BUILD_32
+  VIAddVersionKey OriginalFilename "${LCAPPNAME}-${APPFULLVERSION}-win32-setup-base.exe"
+!else
+  VIAddVersionKey OriginalFilename "${LCAPPNAME}-${APPFULLVERSION}-win64-setup-base.exe"
+!endif
   VIAddVersionKey PrivateBuild "Language Packs Included: none"
 !endif
 VIAddVersionKey SpecialBuild "Build number: ${INSTALLER_BUILD}"
