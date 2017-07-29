@@ -16,31 +16,36 @@
 # <LanguageName> is the name of the language, used in the installer for the
 # list of languages
 
+be	LangBE	LANG_BELARUSIAN	Belarusian
 bg	LangBG	LANG_BULGARIAN	Bulgarian
 ca	LangCA	LANG_CATALAN	Catalan
 cs	LangCS	LANG_CZECH	Czech
-nl	LangNL	LANG_DUTCH	Dutch
-et	LangET	LANG_ESTONIAN	Estonian
-eo	LangEO		Esperanto
-fr	LangFR	LANG_FRENCH	French
 de	LangDE	LANG_GERMAN	German
-el	LangEL	LANG_GREEK	Greek
+en	LangEN	LANG_ENGLISH	English
+eo	LangEO		Esperanto
+es	LangES	LANG_SPANISH	Spanish
+et	LangET	LANG_ESTONIAN	Estonian
+fa	LangFA	LANG_FARSI	Persian
+fi	LangFI	LANG_FINNISH	Finnish
+fr	LangFR	LANG_FRENCH	French
+he	LangHE	LANG_HEBREW	Hebrew
 hu	LangHU	LANG_HUNGARIAN	Hungarian
 it	LangIT	LANG_ITALIAN	Italian
+ja	LangJA	LANG_JAPANESE	Japanese
+kk	LangKK	LANG_KAZAK	Kazakh
 mk	LangMK	LANG_MACEDONIAN	Macedonian
+nl	LangNL	LANG_DUTCH	Dutch
 pl	LangPL	LANG_POLISH	Polish
 pt	LangPT	LANG_PORTUGUESE	Portuguese
 pt_BR	LangPTBR	LANG_PORTUGUESEBR	Portuguese (BR)
-zh	LangZH	LANG_SIMPCHINESE	Chinese (Simplified)
-zh_TW	LangZHTW	LANG_TRADCHINESE	Chinese (Traditional)
-es	LangES	LANG_SPANISH	Spanish
-es_ES	LangESES	LANG_SPANISH	Spanish
 ru	LangRU	LANG_RUSSIAN	Russian
-sr@Latn	LangSRLat	LANG_SERBIANLATIN	Serbian (Latin)
 sk	LangSK	LANG_SLOVAK	Slovak
 sl	LangSL	LANG_SLOVENIAN	Slovenian
+sr@latin	LangSRLat	LANG_SERBIANLATIN	Serbian (Latin)
 sv	LangSV	LANG_SWEDISH	Swedish
+sw	LangSW	LANG_SWAHILI	Swahili
 uk	LangUK	LANG_UKRAINIAN	Ukrainian
 ur_PK	LangURPK	LANG_URDU	Urdu
-vi	LangVI		Vietnamese
-
+vi	LangVI	LANG_VIETNAMESE	Vietnamese
+zh_CN	LangZH	LANG_SIMPCHINESE	Chinese (Simplified)
+zh_TW	LangZHTW	LANG_TRADCHINESE	Chinese (Traditional)

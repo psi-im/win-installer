@@ -2,7 +2,7 @@
 ;  config.nsh - Psi Installer Configuration File
 ;*******************************************************************************
 
-!define APPVERSION "0.14"
+!define APPVERSION "1.1"
 !define APPEXTRAVERSION ""
 
 !define BUILD_WITH_LANGPACKS

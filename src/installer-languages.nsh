@@ -35,15 +35,17 @@
   !insertmacro UI_LANGUAGE_LOAD "Czech"        ; cz
   !insertmacro MUI_LANGUAGE "SimpChinese"      ; zh
   !insertmacro MUI_LANGUAGE "TradChinese"      ; zh_TW
+  !insertmacro MUI_LANGUAGE "Estonian"         ; et
+  !insertmacro UI_LANGUAGE_LOAD "French"       ; fr
   !insertmacro UI_LANGUAGE_LOAD "German"       ; de
+  !insertmacro UI_LANGUAGE_LOAD "Greek"        ; el
+  !insertmacro UI_LANGUAGE_LOAD "Hebrew"       ; he
   !insertmacro MUI_LANGUAGE "Hungarian"        ; hu
 ; Esperanto - no NSIS support                  ; eo
-  !insertmacro MUI_LANGUAGE "Estonian"         ; et
   !insertmacro UI_LANGUAGE_LOAD "Spanish"      ; es, es_ES
-  !insertmacro UI_LANGUAGE_LOAD "French"       ; fr
-  !insertmacro UI_LANGUAGE_LOAD "Greek"        ; el
   !insertmacro MUI_LANGUAGE "Italian"          ; it
   !insertmacro MUI_LANGUAGE "Japanese"         ; jp
+  !insertmacro UI_LANGUAGE_LOAD "Kazakh"       ; kk
   !insertmacro UI_LANGUAGE_LOAD "Macedonian"   ; mk
   !insertmacro UI_LANGUAGE_LOAD "Dutch"        ; nl
   !insertmacro UI_LANGUAGE_LOAD "Polish"       ; pl
@@ -52,11 +54,11 @@
   !insertmacro MUI_LANGUAGE "Russian"          ; ru
   !insertmacro MUI_LANGUAGE "Slovak"           ; sk
   !insertmacro MUI_LANGUAGE "Slovenian"        ; sl
-  !insertmacro MUI_LANGUAGE "SerbianLatin"     ; sr@Latn
+  !insertmacro MUI_LANGUAGE "SerbianLatin"     ; sr@latin
   !insertmacro MUI_LANGUAGE "Swedish"          ; se
   !insertmacro MUI_LANGUAGE "Ukrainian"        ; uk
 ; Urdu - no NSIS support                       ; ur_pk
-; Vietnamese - no NSIS support                 ; vi
+  !insertmacro MUI_LANGUAGE "Vietnamese"       ; vi
 
 ; ********************************
 

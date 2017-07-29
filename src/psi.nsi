@@ -22,8 +22,10 @@
 ;  See ReadME.txt for more information on the script.
 ;*******************************************************************************
 
+Unicode true
+
 ; Installer Script Version
-!define INSTALLER_VERSION "2.0"
+!define INSTALLER_VERSION "3.0"
 
 ; Psi Installer Configuration File
 !include "..\config.nsh"
@@ -36,7 +38,7 @@
 
 !define LCAPPNAME "psi" ; lowercase APPNAME
 
-!define INSTALLER_COPYRIGHT_YEAR "2004-2012"
+!define INSTALLER_COPYRIGHT_YEAR "2004-2017"
 
 ; Version information for the installer executable
 VIAddVersionKey ProductName "${APPNAME}"
@@ -98,9 +100,9 @@ BrandingText "- ${APPNAMEANDVERSION} installer - build ${INSTALLER_BUILD} / scri
 !define HOME_URL "http://psi-im.org/"
 
 ; Main Install settings
-!define APP_BUILD "${INSTALLER_HOME}${FILE_SEPARATOR}build${FILE_SEPARATOR}"
+; !define APP_BUILD "${INSTALLER_HOME}${FILE_SEPARATOR}build${FILE_SEPARATOR}"
 !define INSTALLER_SRC "${INSTALLER_HOME}${FILE_SEPARATOR}src${FILE_SEPARATOR}"
-!define APP_SOURCE "${APP_BUILD}psi_app${FILE_SEPARATOR}"
+; !define APP_SOURCE "${APP_BUILD}psi_app${FILE_SEPARATOR}"
 
 Name "${APPNAMEANDVERSION}"
 !ifdef BUILD_32
