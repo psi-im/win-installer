@@ -106,9 +106,9 @@ win_psi_dir="$(cygpath -pw "$PSI_DIR")"
 (cd "$PSI_DIR"; find -type f -printf '%P\n' | while read -r f; do
 	winf="${f//\//\\}"
 	dn=$(dirname "$f")
-	[ "$dn" = "." ] && dn=""
+	[ "$dn" = "." ] && dn="\$INSTDIR" || dn="\$INSTDIR\\${dn//\//\\}"
 	if [ "$dn" != "$last_dn" ]; then
-		echo "SetOutPath \$INSTDIR\\${dn//\//\\}" >> $out_inst
+		echo "SetOutPath $dn" >> $out_inst
 		last_dn="$dn"
 	fi
 	echo "File \"\${APP_SOURCE}\\${winf}\"" >> $out_inst
