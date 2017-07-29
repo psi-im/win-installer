@@ -45,7 +45,7 @@
   !insertmacro UI_LANGUAGE_LOAD "Spanish"      ; es, es_ES
   !insertmacro MUI_LANGUAGE "Italian"          ; it
   !insertmacro MUI_LANGUAGE "Japanese"         ; jp
-  !insertmacro UI_LANGUAGE_LOAD "Kazakh"       ; kk
+;  !insertmacro UI_LANGUAGE_LOAD "Kazakh"       ; kk // no NSIS support
   !insertmacro UI_LANGUAGE_LOAD "Macedonian"   ; mk
   !insertmacro UI_LANGUAGE_LOAD "Dutch"        ; nl
   !insertmacro UI_LANGUAGE_LOAD "Polish"       ; pl
