@@ -1,0 +1,56 @@
+af_ZA	SpellLang_af_ZA	LANG_AFRIKAANS	Afrikaans
+an_ES	SpellLang_an_ES	LANG_RUSSIAN	Russian
+ar	SpellLang_ar	LANG_ARABIC	Arabic
+be_BY	SpellLang_be_BY	LANG_BELARUSIAN	Belarusian
+bg_BG	SpellLang_bg_BG	LANG_BULGARIAN	Bulgarian
+bn_BD	SpellLang_bn_BD	LANG_BENGALI	Bengali
+br_FR	SpellLang_br_FR			Breton
+bs_BA	SpellLang_bs_BA			Bosnian
+cs_CZ	SpellLang_cs_CZ	LANG_CZECH	Czech
+da_DK	SpellLang_da_DK	LANG_DANISH	Danish
+de_AT_frami	SpellLang_de_AT_frami	LANG_GERMAN	German (Austria)
+de_CH_frami	SpellLang_de_CH_frami	LANG_GERMAN	German (Switzerland)
+de_DE_frami	SpellLang_de_DE_frami	LANG_GERMAN	German (Germany)
+el_GR	SpellLang_el_GR	LANG_GREEK	Greek
+en_AU	SpellLang_en_AU	LANG_ENGLISH	English (Australia)
+en_CA	SpellLang_en_CA	LANG_ENGLISH	English (Canada)
+en_GB	SpellLang_en_GB	LANG_ENGLISH	English (UnitedKingdom)
+en_US	SpellLang_en_US	LANG_ENGLISH	English (UnitedStates)
+en_ZA	SpellLang_en_ZA	LANG_ENGLISH	English (SouthAfrica)
+es_ANY	SpellLang_es_ANY	LANG_SPANISH	Spanish
+et_EE	SpellLang_et_EE	LANG_ESTONIAN	Estonian
+fr	SpellLang_fr	LANG_FRENCH	French
+gl_ES	SpellLang_gl_ES	LANG_GALICIAN	Galician
+gu_IN	SpellLang_gu_IN	LANG_GUJARATI	Gujarati
+he_IL	SpellLang_he_IL	LANG_HEBREW	Hebrew
+hi_IN	SpellLang_hi_IN	LANG_HINDI	Hindi
+hr_HR	SpellLang_hr_HR	LANG_CROATIAN	Croatian
+hu_HU	SpellLang_hu_HU	LANG_HUNGARIAN	Hungarian
+is	SpellLang_is	LANG_ICELANDIC	Icelandic
+it_IT	SpellLang_it_IT	LANG_ITALIAN	Italian
+kmr_Latn	SpellLang_kmr_Latn			Kurdish
+lo_LA	SpellLang_lo_LA	LANG_LAO	Lao
+lt	SpellLang_lt	LANG_LITHUANIAN	Lithuanian
+lv_LV	SpellLang_lv_LV	LANG_LATVIAN	Latvian
+nb_NO	SpellLang_nb_NO			NorwegianBokmal
+ne_NP	SpellLang_ne_NP	LANG_NEPALI	Nepali
+nl_NL	SpellLang_nl_NL	LANG_DUTCH	Dutch
+nn_NO	SpellLang_nn_NO			NorwegianNynorsk
+oc_FR	SpellLang_oc_FR			Occitan
+pl_PL	SpellLang_pl_PL	LANG_POLISH	Polish
+pt_BR	SpellLang_pt_BR	LANG_PORTUGUESE	Portuguese (Brazil)
+pt_PT	SpellLang_pt_PT	LANG_PORTUGUESE	Portuguese (Portugal)
+ro_RO	SpellLang_ro_RO	LANG_ROMANIAN	Romanian
+ru_RU	SpellLang_ru_RU	LANG_RUSSIAN	Russian
+si_LK	SpellLang_si_LK			Sinhala
+sk_SK	SpellLang_sk_SK	LANG_SLOVAK	Slovak
+sl_SI	SpellLang_sl_SI	LANG_SLOVENIAN	Slovenian
+sr	SpellLang_sr	LANG_SERBIAN	Serbian (Cyrillic)
+sr-Latn	SpellLang_sr-Latn	LANG_SERBIAN	Serbian (Latin)
+sv_FI	SpellLang_sv_FI	LANG_SWEDISH	Swedish (Finland)
+sv_SE	SpellLang_sv_SE	LANG_SWEDISH	Swedish (Sweden)
+sw_TZ	SpellLang_sw_TZ	LANG_SWAHILI	Swahili
+te_IN	SpellLang_te_IN			Telugu
+th_TH	SpellLang_th_TH	LANG_THAI	Thai
+uk_UA	SpellLang_uk_UA	LANG_UKRAINIAN	Ukrainian
+vi_VN	SpellLang_vi_VN	LANG_VIETNAMESE	Vietnamese

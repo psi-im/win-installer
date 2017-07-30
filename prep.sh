@@ -7,6 +7,7 @@ TS_DIR="$(cd "${INST_DIR}/.."; pwd)/psi-l10n"
 QM_DIR="${BUILD_DIR}/psi_lang"
 QT_QM_DIR="$(qmake -query QT_INSTALL_TRANSLATIONS)"
 LANG_REPO_URL=https://github.com/psi-im/psi-l10n.git
+SPELL_DIR="$PSI_DIR/myspell/dicts"
 
 die() { echo "Error: $@"; exit 1; }
 
@@ -46,7 +47,7 @@ cat tools/psi_lang.map | grep -E 'Lang.*	LANG' | sort | while read -r ldesc; do
 	lang_key="$(echo "$ldesc" | cut -f 1)"
 	lang_section="$(echo "$ldesc" | cut -f 2)"
 	lang_id="$(echo "$ldesc" | cut -f 3)"
-	lang_name="$(echo "$ldesc" | cut -f 4)"
+	lang_name="$(echo "$ldesc" | cut -f 4-)"
 	lang_file="psi_${lang_key}.qm"
 	if [ -f "$QM_DIR/$lang_file" ]; then
 		echo "Found translation file for ${lang_name}"
@@ -60,10 +61,10 @@ cat tools/psi_lang.map | grep -E 'Lang.*	LANG' | sort | while read -r ldesc; do
 ; ${lang_name}
 Section /o \"${lang_name}\" $lang_section
 	SetOverwrite on
-	SetOutPath \"\$INSTDIR\\\"
-	File \"\${APP_BUILD}psi_lang\${FILE_SEPARATOR}${lang_file}\""
+	\${SetOutPath} \"\$INSTDIR\\translations\\\"
+	\${File} \"\${APP_BUILD}psi_lang\${FILE_SEPARATOR}${lang_file}\""
 	if [ -f "$QM_DIR/qt_${lang_key}.qm" ]; then
-		echo "	File \"\${APP_BUILD}psi_lang\${FILE_SEPARATOR}qt_${lang_key}.qm\""
+		echo "	\${File} \"\${APP_BUILD}psi_lang\${FILE_SEPARATOR}qt_${lang_key}.qm\""
 	fi
 	echo "SectionEnd"
 ) >> "${flanginst}"
@@ -79,6 +80,7 @@ Section /o \"${lang_name}\" $lang_section
 	fi
 done
 
+# ========================================================
 # nsh files to Psi translations are generated.
 # Now lets generate everything else
 
@@ -89,21 +91,57 @@ echo ";
 ;
 " > $out_inst
 
-directories="$(find "$PSI_DIR" ! -path . -type d -printf "%P\n")"
-win_psi_dir="$(cygpath -pw "$PSI_DIR")"
-(cd "$PSI_DIR"; find -type f -printf '%P\n' | while read -r f; do
+(cd "$PSI_DIR"; find -type f  -path './myspell/dicts/*' -prune -o -printf '%P\n' | while read -r f; do
 	winf="${f//\//\\}"
 	dn=$(dirname "$f")
 	[ "$dn" = "." ] && dn="\$INSTDIR" || dn="\$INSTDIR\\${dn//\//\\}"
 	if [ "$dn" != "$last_dn" ]; then
-		echo "SetOutPath $dn" >> $out_inst
+		echo "\${SetOutPath} $dn" >> $out_inst
 		last_dn="$dn"
 	fi
-	echo "File \"\${APP_SOURCE}\\${winf}\"" >> $out_inst
+	echo "\${File} \"\${APP_SOURCE}\\${winf}\"" >> $out_inst
 done)
 
+# ========================================================
+# Now the last thing. Install sections for spelling dicts
+spell_inst="${BUILD_DIR}/psi_spell_install.nsh"
+spell_setup="${BUILD_DIR}/psi_spell_setup.nsh"
+cat tools/spell_lang.map | grep -E 'Lang.*	LANG' | sort | while read -r ldesc; do
+	#<key>,<SectionName>,<LanguageID>,<LanguageName>
+	lang_key="$(echo "$ldesc" | cut -f 1)"
+	lang_section="$(echo "$ldesc" | cut -f 2)"
+	lang_id="$(echo "$ldesc" | cut -f 3)"
+	lang_name="$(echo "$ldesc" | cut -f 4-)"
+	if [ -f "$SPELL_DIR/${lang_key}.dic" -a -f "$SPELL_DIR/${lang_key}.aff" ]; then
+		echo "Found spell dictionary for ${lang_name}"
+	else
+		echo "Spell dictionary for ${lang_name} is not found"
+		continue
+	fi
+	
+	# psi_lang_install.nsh
+	(echo "
+; ${lang_name}
+Section /o \"${lang_name}\" $lang_section
+	SetOverwrite on
+	\${SetOutPath} \"\$INSTDIR\${FILE_SEPARATOR}myspell\${FILE_SEPARATOR}dicts\${FILE_SEPARATOR}\"
+	\${File} \"\${APP_SOURCE}\${FILE_SEPARATOR}myspell\${FILE_SEPARATOR}dicts\${FILE_SEPARATOR}${lang_key}.dic\"
+	\${File} \"\${APP_SOURCE}\${FILE_SEPARATOR}myspell\${FILE_SEPARATOR}dicts\${FILE_SEPARATOR}${lang_key}.aff\""
+	echo "SectionEnd"
+) >> "${spell_inst}"
 
-# =====
+	# psi_lang_setup.nsh
+	if [ -n "$lang_id" ]; then
+		echo "
+	StrCmp \$LANGUAGE \${${lang_id}} 0 +2
+		SectionSetFlags \${${lang_section}} \${SF_SELECTED}" >> "${spell_setup}"
+	else
+		echo "
+	; No ${lang_name} AutoSelection" >> "${spell_setup}"
+	fi
+done
+
+# ========================================================
 # Generate configuration file
 echo "
 !define APPVERSION \"1.2\"
@@ -112,11 +150,14 @@ echo "
 !define BUILD_WITH_LANGPACKS
 ; ^ comment if you want to build the installer without language packs
 
+!define BUILD_WITH_SPELL
+; ^ comment if you want to build the installer without spell dictionaries
+
 ;!define BUILD_32
 ; ^ uncomment to package a 32-bit psi. otherwise 64-bit psi is assumed
 
 !define INSTALLER_HOME \"$(cygpath -pw "$INST_DIR")\"
-!define APP_SOURCE \"${win_psi_dir}\\\"
+!define APP_SOURCE \"$(cygpath -pw "$PSI_DIR")\\\"
 !define APP_BUILD \"$(cygpath -pw "$BUILD_DIR")\\\"
 
 !define INSTALLER_BUILD \"0\"

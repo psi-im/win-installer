@@ -250,6 +250,13 @@ SectionGroup "_" SectionLang
 SectionGroupEnd
 !endif
 
+!ifdef BUILD_WITH_SPELL
+SectionGroup "_" SectionSpell
+  !include "${APP_BUILD}psi_spel_install.nsh"
+  ; See ReadME.txt for more information
+SectionGroupEnd
+!endif
+
 Section "" SectionSM
  StrCmp $RUN_BY_ADMIN "true" sm_admin
  sm_normal:
@@ -312,6 +319,9 @@ Function CompNames
   SectionSetText ${SectionBase} "$LSTR_PSIBASE"
   !ifdef BUILD_WITH_LANGPACKS
     SectionSetText ${SectionLang} "$LSTR_LANGUAGES"
+  !endif
+  !ifdef BUILD_WITH_SPELL
+    SectionSetText ${SectionSpell} "$LSTR_SPELL_DICTS"
   !endif
   SectionSetText ${SectionSM} "$LSTR_STARTMENU_GROUP ($INST_CONTEXT)"
   SectionSetText ${SectionShortcuts} "$LSTR_SHORTCUTS ($LSTR_CURRENTUSER)"
@@ -378,6 +388,13 @@ Function .onInit
 !ifdef BUILD_WITH_LANGPACKS
 ; automatically choose language pack to install
   !include "${APP_BUILD}psi_lang_setup.nsh"
+  ; See ReadME.txt for more information
+; ****************
+!endif
+
+!ifdef BUILD_WITH_SPELL
+; automatically choose spell dicts to install
+  !include "${APP_BUILD}psi_spell_setup.nsh"
   ; See ReadME.txt for more information
 ; ****************
 !endif
