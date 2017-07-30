@@ -91,16 +91,18 @@ echo ";
 ;
 " > $out_inst
 
-(cd "$PSI_DIR"; find -type f  -path './myspell/dicts/*' -prune -o -printf '%P\n' | while read -r f; do
-	winf="${f//\//\\}"
-	dn=$(dirname "$f")
-	[ "$dn" = "." ] && dn="\$INSTDIR" || dn="\$INSTDIR\\${dn//\//\\}"
-	if [ "$dn" != "$last_dn" ]; then
-		echo "\${SetOutPath} $dn" >> $out_inst
-		last_dn="$dn"
+directories=$(cd "$PSI_DIR"; find -path './myspell/dicts' -prune -o -path './translations' -prune -o -type d -printf '%P\n')
+echo "\${SetOutPath} \$INSTDIR" >> $out_inst
+( cd "$PSI_DIR"; find -maxdepth 1 -type f -printf '%P\n' | sed 's|.*|${File} "${APP_SOURCE}\0"|' ) >> $out_inst
+for dir in $directories; do
+	files="$(cd "$PSI_DIR"; find $dir -maxdepth 1 -type f | while read -r f; do echo "\${File} \"\${APP_SOURCE}${f//\//\${FILE_SEPARATOR\}}\""; done)"
+	if [ -n "$files" ]; then
+		echo "\${SetOutPath} \"\$INSTDIR\${FILE_SEPARATOR}${dir//\//\${FILE_SEPARATOR\}}\"" >> $out_inst
+		echo "$files" >> $out_inst
+	else
+		echo "\${AddItem} \"\$INSTDIR\${FILE_SEPARATOR}${dir//\//\${FILE_SEPARATOR\}}\"" >> $out_inst
 	fi
-	echo "\${File} \"\${APP_SOURCE}\\${winf}\"" >> $out_inst
-done)
+done
 
 # ========================================================
 # Now the last thing. Install sections for spelling dicts
@@ -125,8 +127,8 @@ cat tools/spell_lang.map | grep -E 'Lang.*	LANG' | sort | while read -r ldesc; d
 Section /o \"${lang_name}\" $lang_section
 	SetOverwrite on
 	\${SetOutPath} \"\$INSTDIR\${FILE_SEPARATOR}myspell\${FILE_SEPARATOR}dicts\${FILE_SEPARATOR}\"
-	\${File} \"\${APP_SOURCE}\${FILE_SEPARATOR}myspell\${FILE_SEPARATOR}dicts\${FILE_SEPARATOR}${lang_key}.dic\"
-	\${File} \"\${APP_SOURCE}\${FILE_SEPARATOR}myspell\${FILE_SEPARATOR}dicts\${FILE_SEPARATOR}${lang_key}.aff\""
+	\${File} \"\${APP_SOURCE}myspell\${FILE_SEPARATOR}dicts\${FILE_SEPARATOR}${lang_key}.dic\"
+	\${File} \"\${APP_SOURCE}myspell\${FILE_SEPARATOR}dicts\${FILE_SEPARATOR}${lang_key}.aff\""
 	echo "SectionEnd"
 ) >> "${spell_inst}"
 
@@ -156,14 +158,15 @@ echo "
 ;!define BUILD_32
 ; ^ uncomment to package a 32-bit psi. otherwise 64-bit psi is assumed
 
+!define FILE_SEPARATOR \"\\\"
+
 !define INSTALLER_HOME \"$(cygpath -pw "$INST_DIR")\"
-!define APP_SOURCE \"$(cygpath -pw "$PSI_DIR")\\\"
-!define APP_BUILD \"$(cygpath -pw "$BUILD_DIR")\\\"
+!define APP_SOURCE \"$(cygpath -pw "$PSI_DIR")\${FILE_SEPARATOR}\"
+!define APP_BUILD \"$(cygpath -pw "$BUILD_DIR")\${FILE_SEPARATOR}\"
+; Notice these \\ in the end of APP_SOURCE and APP_BUILD. They are meaningful.
 
 !define INSTALLER_BUILD \"0\"
 ; ^ update whenever you add something to the installer and rebuild it
 ;   without changing APPVERSION
 ; ^ reset to 0 when you change APPVERSION
-
-!define FILE_SEPARATOR \"\\\"
 " > "${INST_DIR}/config.nsh"

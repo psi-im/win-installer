@@ -63,13 +63,13 @@
 ** File structure
 
    The script assumes the files are stored in the following structure:
-     * INSTALLER_SOURCE
+     * INSTALLER_HOME
       \ - psi_app
       | - psi_lang
       | - lang
       | - tools
 
-   * INSTALLER_SOURCE can be changed at the beginning of the script.
+   * INSTALLER_HOME can be changed in config file. Check config.nsh.example
      The folder contains:
       - psi.nsi < main script file
       - installer-functions.nsh file < some functions used by the installer

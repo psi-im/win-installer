@@ -228,7 +228,7 @@ Section "" SectionBase
 
   Call CheckVCRedist
   ${If} $R0 == "-1"
-    File "${MSVS_DIR}\vcredist_x64.exe" 	
+    ${File} "$INSTDIR\vcredist_x64.exe" 	
     ExecWait '"$INSTDIR\vcredist_x64.exe"  /passive /norestart'	$0
     IfErrors 0 noError
       MessageBox MB_OK "$LSTR_WARN_VCREDIST"
