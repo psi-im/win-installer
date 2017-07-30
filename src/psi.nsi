@@ -202,6 +202,21 @@ ${WriteIniStr} "$INSTDIR\${URLFile}.url" "InternetShortcut" "URL" "${URLSite}"
 
 !include "UnInstallLog-section.nsh"
 
+;-------------------------------
+; Test if Visual Studio Redistributables 2015 v14.0.23918 installed
+; Returns -1 if there is no VC redistributables intstalled
+Function CheckVCRedist
+   Push $R0
+   ClearErrors
+   ReadRegDword $R0 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{5DFEB60C-501E-375A-9967-99BBCB6150C5}" "Version"
+
+   IfErrors 0 VSRedistInstalled
+   StrCpy $R0 "-1"
+
+VSRedistInstalled:
+   Exch $R0
+FunctionEnd
+
 Section "" SectionBase
   ; Set Section properties
   SetOverwrite on
@@ -210,6 +225,16 @@ Section "" SectionBase
   ; Set Section Files and Shortcuts
   !include "${APP_BUILD}psi_files_install.nsh"
   ${SetOutPath} "$INSTDIR\"
+
+  Call CheckVCRedist
+  ${If} $R0 == "-1"
+    File "${MSVS_DIR}\vcredist_x64.exe" 	
+    ExecWait '"$INSTDIR\vcredist_x64.exe"  /passive /norestart'	$0
+    IfErrors 0 noError
+      MessageBox MB_OK "$LSTR_WARN_VCREDIST"
+    noError:
+  ${EndIf}
+
   !insertmacro "CreateURL" "Psi - Home page" "http://psi-im.org"
   !insertmacro "CreateURL" "Psi - Forum" "http://psi-im.org/forum"
   !insertmacro "CreateURL" "Psi - Documentation" "http://psi-im.org/wiki"
