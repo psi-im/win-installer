@@ -48,6 +48,9 @@
  
   ;WriteRegStr macro
     !define WriteRegStr "!insertmacro WriteRegStr"
+	
+  ;WriteIniStr macro
+    !define WriteIniStr "!insertmacro WriteIniStr"
  
   ;WriteUninstaller macro
     !define WriteUninstaller "!insertmacro WriteUninstaller"

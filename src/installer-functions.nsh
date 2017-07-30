@@ -85,6 +85,7 @@ FunctionEnd
  ; initializing the strings with the coresponding ones in the active language
  StrCpy $LSTR_PSIBASE         "Psi (base)"
  StrCpy $LSTR_LANGUAGES       "Languages"
+ StrCpy $LSTR_SPELL_DICTS     "Spelling dictionaries"
  StrCpy $LSTR_CURRENTUSER     "Current User"
  StrCpy $LSTR_ALLUSERS        "All Users"
  StrCpy $LSTR_SHORTCUTS       "Shortcuts"
@@ -97,6 +98,7 @@ FunctionEnd
  StrCpy $LSTR_INST_RUNNING    "The installer is already running."
  StrCpy $LSTR_WARN_ADMIN_1    "You are running this installer as a normal user, NOT as an Administrator."
  StrCpy $LSTR_WARN_ADMIN_2    "If you want to uninstall this application, you must use the same user or your system may become unstable."
+ StrCpy $LSTR_WARN_VCREDIST   "Failed to install Visual Studio 2015 v14.0.23918 x64 Redistributable package.$\n$\nIf Psi fails to start, try to restart installer with Adminstrator privileges$\n$\nor install the redistributable package manually."
  StrCpy $LSTR_A_INSTALLED     "Psi is already installed. Would you like to upgrade?$\n$\nClick <Yes> to remove the previous version or <No> install this version separately."
  StrCpy $LSTR_ERR_UNINST      "There were some errors uninstalling Psi. $\n$\nWould you like to continue?"
 
@@ -104,6 +106,8 @@ FunctionEnd
     StrCpy $LSTR_PSIBASE $(STR_PSIBASE)
  StrCmp $(STR_LANGUAGES) "" +2
     StrCpy $LSTR_LANGUAGES $(STR_LANGUAGES)
+ StrCmp $(STR_SPELL_DICTS) "" +2
+    StrCpy $LSTR_SPELL_DICTS $(STR_SPELL_DICTS)
  StrCmp $(STR_CURRENTUSER) "" +2
     StrCpy $LSTR_CURRENTUSER $(STR_CURRENTUSER)
  StrCmp $(STR_ALLUSERS) "" +2
@@ -128,6 +132,8 @@ FunctionEnd
     StrCpy $LSTR_WARN_ADMIN_1 $(STR_WARN_ADMIN_1)
  StrCmp $(STR_WARN_ADMIN_2) "" +2
     StrCpy $LSTR_WARN_ADMIN_2 $(STR_WARN_ADMIN_2)
+ StrCmp $(STR_WARN_VCREDIST) "" +2
+    StrCpy $LSTR_WARN_VCREDIST $(STR_WARN_VCREDIST)
  StrCmp $(STR_A_INSTALLED) "" +2
     StrCpy $LSTR_A_INSTALLED $(STR_A_INSTALLED)
  StrCmp $(STR_ERR_UNINST) "" +2

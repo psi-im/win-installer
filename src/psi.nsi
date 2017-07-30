@@ -79,6 +79,7 @@ SetCompressor lzma
 Var DONE_INIT
 Var RUN_BY_ADMIN
 Var INST_CONTEXT
+Var REG_ROOT
 
 Var LSTR_SHORTCUTS
 Var LSTR_CURRENTUSER
@@ -93,6 +94,8 @@ Var LSTR_WARN_ADMIN_1
 Var LSTR_WARN_ADMIN_2
 Var LSTR_PSIBASE
 Var LSTR_LANGUAGES
+Var LSTR_SPELL_DICTS
+Var LSTR_WARN_VCREDIST
 Var LSTR_AUTOSTART
 Var LSTR_A_INSTALLED
 Var LSTR_ERR_UNINST
@@ -228,8 +231,8 @@ Section "" SectionBase
 
   Call CheckVCRedist
   ${If} $R0 == "-1"
-    ${File} "$INSTDIR\vcredist_x64.exe" 	
-    ExecWait '"$INSTDIR\vcredist_x64.exe"  /passive /norestart'	$0
+    ${File} "${APP_SOURCE}vcredist_x64.exe" 	
+    ExecWait '"$INSTDIR\vcredist_x64.exe"  /passive /norestart'
     IfErrors 0 noError
       MessageBox MB_OK "$LSTR_WARN_VCREDIST"
     noError:
@@ -252,7 +255,7 @@ SectionGroupEnd
 
 !ifdef BUILD_WITH_SPELL
 SectionGroup "_" SectionSpell
-  !include "${APP_BUILD}psi_spel_install.nsh"
+  !include "${APP_BUILD}psi_spell_install.nsh"
   ; See ReadME.txt for more information
 SectionGroupEnd
 !endif
@@ -267,12 +270,12 @@ Section "" SectionSM
  sm_done:
   ${CreateDirectory} "$SMPROGRAMS\${APPNAME}"
   ${SetOutPath} "$INSTDIR\"
-  ${CreateShortcut} "$SMPROGRAMS\${APPNAME}\Psi - Forum.lnk" "$INSTDIR\Psi - Forum.url"
-  ${CreateShortcut} "$SMPROGRAMS\${APPNAME}\Psi - Documentation.lnk" "$INSTDIR\Psi - Documentation.url"
-  ${CreateShortcut} "$SMPROGRAMS\${APPNAME}\Psi - Home page.lnk" "$INSTDIR\Psi - Home page.url"
-  ${CreateShortcut} "$SMPROGRAMS\${APPNAME}\Psi.lnk" "$INSTDIR\Psi.exe"
-  ${CreateShortcut} "$SMPROGRAMS\${APPNAME}\Uninstall.lnk" "$INSTDIR\uninstall.exe"
-  ${CreateShortcut} "$SMPROGRAMS\${APPNAME}\ReadME.lnk" "$INSTDIR\Readme.txt"
+  ${CreateShortcut} "$SMPROGRAMS\${APPNAME}\Psi - Forum.lnk" "$INSTDIR\Psi - Forum.url" "" "" 0
+  ${CreateShortcut} "$SMPROGRAMS\${APPNAME}\Psi - Documentation.lnk" "$INSTDIR\Psi - Documentation.url" "" "" 0
+  ${CreateShortcut} "$SMPROGRAMS\${APPNAME}\Psi - Home page.lnk" "$INSTDIR\Psi - Home page.url" "" "" 0
+  ${CreateShortcut} "$SMPROGRAMS\${APPNAME}\Psi.lnk" "$INSTDIR\Psi.exe" "" "" 0
+  ${CreateShortcut} "$SMPROGRAMS\${APPNAME}\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "" 0
+  ${CreateShortcut} "$SMPROGRAMS\${APPNAME}\ReadME.lnk" "$INSTDIR\Readme.txt" "" "" 0
   SetShellVarContext current
 SectionEnd
 
@@ -281,19 +284,19 @@ SectionGroup "_" SectionShortcuts
   Section "" SectionSD
    SetShellVarContext current
    ${SetOutPath} "$INSTDIR\"
-   ${CreateShortcut} "$DESKTOP\Psi.lnk" "$INSTDIR\Psi.exe"
+   ${CreateShortcut} "$DESKTOP\Psi.lnk" "$INSTDIR\Psi.exe" "" "" 0
   SectionEnd
   Section /o "" SectionQuickLaunch
    SetShellVarContext current
    ${SetOutPath} "$INSTDIR\"
-   ${CreateShortcut} "$QUICKLAUNCH\Psi.lnk" "$INSTDIR\Psi.exe"
+   ${CreateShortcut} "$QUICKLAUNCH\Psi.lnk" "$INSTDIR\Psi.exe" "" "" 0
   SectionEnd
 SectionGroupEnd
 
 Section "" SectionAutomaticStartup
   SetShellVarContext current
   ${SetOutPath} "$INSTDIR\"
-  ${CreateShortcut} "$SMSTARTUP\Psi.lnk" "$INSTDIR\Psi.exe"
+  ${CreateShortcut} "$SMSTARTUP\Psi.lnk" "$INSTDIR\Psi.exe" "" "" 0
 ;  ${WriteRegStr} HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "Psi" "$INSTDIR\Psi.exe"
 ;  ^ doesn't work - Psi is not started with the correct working dir
 SectionEnd
@@ -462,6 +465,16 @@ Function un.InitRoutines
  StrCpy $DONE_INIT "1"
 
  !insertmacro INIT_LANG_STRINGS
+ 
+ Call un.IsUserAdmin
+  Pop $R0
+  StrCmp $R0 "true" uninstall_is_admin
+   StrCpy $REG_ROOT "HKCU"
+   Goto uninstall_done
+  uninstall_is_admin:
+   StrCpy $REG_ROOT "HKLM"
+  uninstall_done:
+
 
 ; allow only one instance of the uninstaller
   System::Call 'kernel32::CreateMutexA(i 0, i 0, t "psi${APPFULLVERSION}-uninstaller") i .r1 ?e'
@@ -492,17 +505,6 @@ Section Uninstall
   IfFileExists "$INSTDIR\${UninstLog}" +3
     MessageBox MB_OK|MB_ICONSTOP "$(UninstLogMissing)"
       Abort
-
-  Var REG_ROOT
-  Call un.IsUserAdmin
-  Pop $R0
-  StrCmp $R0 "true" uninstall_is_admin
-   StrCpy $REG_ROOT "HKCU"
-   Goto uninstall_done
-  uninstall_is_admin:
-   StrCpy $REG_ROOT "HKCU"
-  uninstall_done:
-
  
   Push $R0
   Push $R1
@@ -527,15 +529,23 @@ Section Uninstall
  
     IfFileExists "$R0\*.*" 0 +3
       RMDir $R0  #is dir
-    Goto +9
+    Goto +17
     IfFileExists $R0 0 +3
       Delete $R0 #is file
-    Goto +6
-    StrCmp $R0 "$REG_ROOT ${REG_APP_PATH}" 0 +3
-      DeleteRegKey $REG_ROOT "${REG_APP_PATH}" #is Reg Element
+    Goto +14
+	${If} $REG_ROOT == "HKLM"
+    StrCmp $R0 "HKLM ${REG_APP_PATH}" 0 +3
+      DeleteRegKey HKLM "${REG_APP_PATH}" #is Reg Element
     Goto +3
-    StrCmp $R0 "$REG_ROOT ${REG_UNINSTALL_PATH}" 0 +2
-      DeleteRegKey $REG_ROOT "${REG_UNINSTALL_PATH}" #is Reg Element
+    StrCmp $R0 "HKLM ${REG_UNINSTALL_PATH}" 0 +2
+      DeleteRegKey HKLM "${REG_UNINSTALL_PATH}" #is Reg Element
+	${Else}
+    StrCmp $R0 "HKCU ${REG_APP_PATH}" 0 +3
+      DeleteRegKey HKCU "${REG_APP_PATH}" #is Reg Element
+    Goto +3
+    StrCmp $R0 "HKCU ${REG_UNINSTALL_PATH}" 0 +2
+      DeleteRegKey HKCU "${REG_UNINSTALL_PATH}" #is Reg Element
+	${EndIf}
  
     IntOp $R1 $R1 - 1
     Goto LoopRead
@@ -548,8 +558,13 @@ Section Uninstall
   Pop $R0
  
   ;Remove registry keys
-  DeleteRegKey $REG_ROOT "${REG_APP_PATH}"
-  DeleteRegKey $REG_ROOT "${REG_UNINSTALL_PATH}"
+  ${If} $REG_ROOT == "HKLM"
+  DeleteRegKey HKLM "${REG_APP_PATH}"
+  DeleteRegKey HKLM "${REG_UNINSTALL_PATH}"
+  ${Else}
+  DeleteRegKey HKCU "${REG_APP_PATH}"
+  DeleteRegKey HKCU "${REG_UNINSTALL_PATH}"
+  ${EndIf}
 SectionEnd
 
 Function UninstallPreviousPsi

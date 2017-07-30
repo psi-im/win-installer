@@ -108,6 +108,7 @@ done
 # Now the last thing. Install sections for spelling dicts
 spell_inst="${BUILD_DIR}/psi_spell_install.nsh"
 spell_setup="${BUILD_DIR}/psi_spell_setup.nsh"
+rm "$spell_inst" "$spell_setup"
 cat tools/spell_lang.map | grep -E 'Lang.*	LANG' | sort | while read -r ldesc; do
 	#<key>,<SectionName>,<LanguageID>,<LanguageName>
 	lang_key="$(echo "$ldesc" | cut -f 1)"
