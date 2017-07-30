@@ -30,6 +30,9 @@ Unicode true
 ; Psi Installer Configuration File
 !include "..\config.nsh"
 
+; to uninstall only installed files
+!include "UninstallLog.nsh"
+
 ; Application name
 !define APPNAME "Psi"
 
@@ -39,6 +42,9 @@ Unicode true
 !define LCAPPNAME "psi" ; lowercase APPNAME
 
 !define INSTALLER_COPYRIGHT_YEAR "2004-2017"
+
+!define REG_APP_PATH "Software\psi-im.org\${APPNAME}"
+!define REG_UNINSTALL_PATH "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}"
 
 ; Version information for the installer executable
 VIAddVersionKey ProductName "${APPNAME}"
@@ -124,10 +130,10 @@ Name "${APPNAMEANDVERSION}"
 !endif
 !endif
 
-InstallDirRegKey HKLM "Software\psi-im.org\${APPNAME}" ""
+InstallDirRegKey HKLM "${REG_APP_PATH}" ""
 
 ; Modern interface settings
-!include "MUI.nsh"
+!include "MUI2.nsh"
 
 ;--------------------------------
 ;Page settings
@@ -158,7 +164,7 @@ InstallDirRegKey HKLM "Software\psi-im.org\${APPNAME}" ""
 
   ;Remember the installer language
   !define MUI_LANGDLL_REGISTRY_ROOT "HKLM"
-  !define MUI_LANGDLL_REGISTRY_KEY "Software\psi-im.org\${APPNAME}"
+  !define MUI_LANGDLL_REGISTRY_KEY "${REG_APP_PATH}"
   !define MUI_LANGDLL_REGISTRY_VALUENAME "Installer Language"
 
 PAGE custom InitRoutines
@@ -187,12 +193,14 @@ UNINSTPAGE custom un.InitRoutines
 
 ; macro for creating urls
 !Macro "CreateURL" "URLFile" "URLSite"
-WriteINIStr "$INSTDIR\${URLFile}.url" "InternetShortcut" "URL" "${URLSite}"
+${WriteIniStr} "$INSTDIR\${URLFile}.url" "InternetShortcut" "URL" "${URLSite}"
 !macroend
 ;--------------------------------
 
 ;*********************************
 ; Sections of the installer
+
+!include "UnInstallLog-section.nsh"
 
 Section "" SectionBase
   ; Set Section properties
@@ -201,7 +209,7 @@ Section "" SectionBase
   
   ; Set Section Files and Shortcuts
   !include "${APP_BUILD}psi_files_install.nsh"
-  SetOutPath "$INSTDIR\"
+  ${SetOutPath} "$INSTDIR\"
   !insertmacro "CreateURL" "Psi - Home page" "http://psi-im.org"
   !insertmacro "CreateURL" "Psi - Forum" "http://psi-im.org/forum"
   !insertmacro "CreateURL" "Psi - Documentation" "http://psi-im.org/wiki"
@@ -225,14 +233,14 @@ Section "" SectionSM
  sm_admin:
   SetShellVarContext all
  sm_done:
-  CreateDirectory "$SMPROGRAMS\${APPNAME}"
-  SetOutPath "$INSTDIR\"
-  CreateShortCut "$SMPROGRAMS\${APPNAME}\Psi - Forum.lnk" "$INSTDIR\Psi - Forum.url"
-  CreateShortCut "$SMPROGRAMS\${APPNAME}\Psi - Documentation.lnk" "$INSTDIR\Psi - Documentation.url"
-  CreateShortCut "$SMPROGRAMS\${APPNAME}\Psi - Home page.lnk" "$INSTDIR\Psi - Home page.url"
-  CreateShortCut "$SMPROGRAMS\${APPNAME}\Psi.lnk" "$INSTDIR\Psi.exe"
-  CreateShortCut "$SMPROGRAMS\${APPNAME}\Uninstall.lnk" "$INSTDIR\uninstall.exe"
-  CreateShortCut "$SMPROGRAMS\${APPNAME}\ReadME.lnk" "$INSTDIR\Readme.txt"
+  ${CreateDirectory} "$SMPROGRAMS\${APPNAME}"
+  ${SetOutPath} "$INSTDIR\"
+  ${CreateShortcut} "$SMPROGRAMS\${APPNAME}\Psi - Forum.lnk" "$INSTDIR\Psi - Forum.url"
+  ${CreateShortcut} "$SMPROGRAMS\${APPNAME}\Psi - Documentation.lnk" "$INSTDIR\Psi - Documentation.url"
+  ${CreateShortcut} "$SMPROGRAMS\${APPNAME}\Psi - Home page.lnk" "$INSTDIR\Psi - Home page.url"
+  ${CreateShortcut} "$SMPROGRAMS\${APPNAME}\Psi.lnk" "$INSTDIR\Psi.exe"
+  ${CreateShortcut} "$SMPROGRAMS\${APPNAME}\Uninstall.lnk" "$INSTDIR\uninstall.exe"
+  ${CreateShortcut} "$SMPROGRAMS\${APPNAME}\ReadME.lnk" "$INSTDIR\Readme.txt"
   SetShellVarContext current
 SectionEnd
 
@@ -240,36 +248,36 @@ SectionEnd
 SectionGroup "_" SectionShortcuts
   Section "" SectionSD
    SetShellVarContext current
-   SetOutPath "$INSTDIR\"
-   CreateShortCut "$DESKTOP\Psi.lnk" "$INSTDIR\Psi.exe"
+   ${SetOutPath} "$INSTDIR\"
+   ${CreateShortcut} "$DESKTOP\Psi.lnk" "$INSTDIR\Psi.exe"
   SectionEnd
   Section /o "" SectionQuickLaunch
    SetShellVarContext current
-   SetOutPath "$INSTDIR\"
-   CreateShortCut "$QUICKLAUNCH\Psi.lnk" "$INSTDIR\Psi.exe"
+   ${SetOutPath} "$INSTDIR\"
+   ${CreateShortcut} "$QUICKLAUNCH\Psi.lnk" "$INSTDIR\Psi.exe"
   SectionEnd
 SectionGroupEnd
 
 Section "" SectionAutomaticStartup
   SetShellVarContext current
-  SetOutPath "$INSTDIR\"
-  CreateShortCut "$SMSTARTUP\Psi.lnk" "$INSTDIR\Psi.exe"
-;  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "Psi" "$INSTDIR\Psi.exe"
+  ${SetOutPath} "$INSTDIR\"
+  ${CreateShortcut} "$SMSTARTUP\Psi.lnk" "$INSTDIR\Psi.exe"
+;  ${WriteRegStr} HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "Psi" "$INSTDIR\Psi.exe"
 ;  ^ doesn't work - Psi is not started with the correct working dir
 SectionEnd
 
 Section -FinishSection
  StrCmp $RUN_BY_ADMIN "true" lastsettings_is_admin
-  WriteRegStr HKCU "Software\psi-im.org\${APPNAME}" "" "$INSTDIR"
-  WriteRegStr HKCU "Software\psi-im.org\${APPNAME}" "Version" "${APPFULLVERSION}"
-  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "DisplayName" "${APPNAME} (remove only)"
-  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "UninstallString" "$INSTDIR\uninstall.exe"
+  ${WriteRegStr} HKCU "${REG_APP_PATH}" "" "$INSTDIR"
+  ${WriteRegStr} HKCU "${REG_APP_PATH}" "Version" "${APPFULLVERSION}"
+  ${WriteRegStr} HKCU "${REG_UNINSTALL_PATH}" "DisplayName" "${APPNAME} (remove only)"
+  ${WriteRegStr} HKCU "${REG_UNINSTALL_PATH}" "UninstallString" "$INSTDIR\uninstall.exe"
   Goto lastsettings_done
  lastsettings_is_admin:
-  WriteRegStr HKLM "Software\psi-im.org\${APPNAME}" "" "$INSTDIR"
-  WriteRegStr HKLM "Software\psi-im.org\${APPNAME}" "Version" "${APPFULLVERSION}"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "DisplayName" "${APPNAME} (remove only)"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "UninstallString" "$INSTDIR\uninstall.exe"
+  ${WriteRegStr} HKLM "${REG_APP_PATH}" "" "$INSTDIR"
+  ${WriteRegStr} HKLM "${REG_APP_PATH}" "Version" "${APPFULLVERSION}"
+  ${WriteRegStr} HKLM "${REG_UNINSTALL_PATH}" "DisplayName" "${APPNAME} (remove only)"
+  ${WriteRegStr} HKLM "${REG_UNINSTALL_PATH}" "UninstallString" "$INSTDIR\uninstall.exe"
 
  lastsettings_done:
  WriteUninstaller "$INSTDIR\uninstall.exe"
@@ -434,66 +442,73 @@ Function un.onInit
 
 FunctionEnd
 
-;Uninstall section
+;--------------------------------
+; Uninstaller
+;--------------------------------
 Section Uninstall
-  ;Remove from registry...
- Call un.IsUserAdmin
- Pop $R0
- StrCmp $R0 "true" uninstall_is_admin
-   DeleteRegKey HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}"
-   DeleteRegKey HKCU "Software\psi-im.org\${APPNAME}"
+  ;Can't uninstall if uninstall log is missing!
+  IfFileExists "$INSTDIR\${UninstLog}" +3
+    MessageBox MB_OK|MB_ICONSTOP "$(UninstLogMissing)"
+      Abort
+
+  Var REG_ROOT
+  Call un.IsUserAdmin
+  Pop $R0
+  StrCmp $R0 "true" uninstall_is_admin
+   StrCpy $REG_ROOT "HKCU"
    Goto uninstall_done
   uninstall_is_admin:
-   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}"
-   DeleteRegKey HKLM "Software\psi-im.org\${APPNAME}"
+   StrCpy $REG_ROOT "HKCU"
   uninstall_done:
 
-  ; Delete self
-  Delete "$INSTDIR\uninstall.exe"
-
-  ; Delete links
-  Delete "$INSTDIR\Psi - Forum.url";
-  Delete "$INSTDIR\Psi - Home page.url";
-  Delete "$INSTDIR\Psi - Documentation.url";
-
-  ; Delete Shortcuts
-  SetShellVarContext current
-  Delete "$DESKTOP\Psi.lnk"
-  Delete "$SMPROGRAMS\${APPNAME}\Psi.lnk"
-  Delete "$SMPROGRAMS\${APPNAME}\Uninstall.lnk"
-  Delete "$SMPROGRAMS\${APPNAME}\ReadME.lnk"
-  Delete "$QUICKLAUNCH\Psi.lnk"
-  Delete "$SMPROGRAMS\${APPNAME}\Psi - Forum.lnk"
-  Delete "$SMPROGRAMS\${APPNAME}\Psi - Home page.lnk"
-  Delete "$SMPROGRAMS\${APPNAME}\Psi - Documentation.lnk"
-  RMDir "$SMPROGRAMS\${APPNAME}"
-
-  SetShellVarContext all
-  Delete "$DESKTOP\Psi.lnk"
-  Delete "$SMPROGRAMS\${APPNAME}\Psi.lnk"
-  Delete "$SMPROGRAMS\${APPNAME}\Uninstall.lnk"
-  Delete "$SMPROGRAMS\${APPNAME}\ReadME.lnk"
-  Delete "$QUICKLAUNCH\Psi.lnk"
-  Delete "$SMPROGRAMS\${APPNAME}\Psi - Forum.lnk"
-  Delete "$SMPROGRAMS\${APPNAME}\Psi - Home page.lnk"
-  Delete "$SMPROGRAMS\${APPNAME}\Psi - Documentation.lnk"
-  RMDir "$SMPROGRAMS\${APPNAME}"
-
-  ; DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "Psi"
-  ; ^ Registry shortcut doesn't work
-  SetShellVarContext current
-  Delete "$SMSTARTUP\Psi.lnk"
-
-!ifdef BUILD_WITH_LANGPACKS
-  ; Delete Language files
-  !include "${APP_BUILD}psi_lang_uninstall.nsh"
-  ; See ReadME.txt for more information
-!endif
-
-  ; Clean up Psi (base)
-  !include "${APP_BUILD}psi_files_uninstall.nsh"
+ 
+  Push $R0
+  Push $R1
+  Push $R2
+  SetFileAttributes "$INSTDIR\${UninstLog}" NORMAL
+  FileOpen $UninstLog "$INSTDIR\${UninstLog}" r
+  StrCpy $R1 -1
+ 
+  GetLineCount:
+    ClearErrors
+    FileRead $UninstLog $R0
+    IntOp $R1 $R1 + 1
+    StrCpy $R0 $R0 -2
+    Push $R0   
+    IfErrors 0 GetLineCount
+ 
+  Pop $R0
+ 
+  LoopRead:
+    StrCmp $R1 0 LoopDone
+    Pop $R0
+ 
+    IfFileExists "$R0\*.*" 0 +3
+      RMDir $R0  #is dir
+    Goto +9
+    IfFileExists $R0 0 +3
+      Delete $R0 #is file
+    Goto +6
+    StrCmp $R0 "$REG_ROOT ${REG_APP_PATH}" 0 +3
+      DeleteRegKey $REG_ROOT "${REG_APP_PATH}" #is Reg Element
+    Goto +3
+    StrCmp $R0 "$REG_ROOT ${REG_UNINSTALL_PATH}" 0 +2
+      DeleteRegKey $REG_ROOT "${REG_UNINSTALL_PATH}" #is Reg Element
+ 
+    IntOp $R1 $R1 - 1
+    Goto LoopRead
+  LoopDone:
+  FileClose $UninstLog
+  Delete "$INSTDIR\${UninstLog}"
+  RMDir "$INSTDIR"
+  Pop $R2
+  Pop $R1
+  Pop $R0
+ 
+  ;Remove registry keys
+  DeleteRegKey $REG_ROOT "${REG_APP_PATH}"
+  DeleteRegKey $REG_ROOT "${REG_UNINSTALL_PATH}"
 SectionEnd
-
 
 Function UninstallPreviousPsi
 
@@ -501,12 +516,12 @@ Function UninstallPreviousPsi
  Pop $R0
  StrCpy $RUN_BY_ADMIN $R0 ; saving information
  StrCmp $R0 "true" unppsi_is_admin
-  ReadRegStr $R0 HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "UninstallString"
-	ReadRegStr $R1 HKCU "Software\psi-im.org\${APPNAME}" ""
+  ReadRegStr $R0 HKCU "${REG_UNINSTALL_PATH}" "UninstallString"
+	 ReadRegStr $R1 HKCU "${REG_APP_PATH}" ""
   goto unppsi_done
  unppsi_is_admin:
-  ReadRegStr $R0 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "UninstallString"
-	ReadRegStr $R1 HKLM "Software\psi-im.org\${APPNAME}" ""
+  ReadRegStr $R0 HKLM "${REG_UNINSTALL_PATH}" "UninstallString"
+	 ReadRegStr $R1 HKLM "${REG_APP_PATH}" ""
  unppsi_done:
   ; $R0 holds the path to the uninstaller
   ; $R1 holds the install dir

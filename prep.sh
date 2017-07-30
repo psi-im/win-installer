@@ -39,8 +39,7 @@ done
 
 flanginst="${BUILD_DIR}/psi_lang_install.nsh"
 flangsetup="${BUILD_DIR}/psi_lang_setup.nsh"
-flanguninst="${BUILD_DIR}/psi_lang_uninstall.nsh"
-rm -f "$flanginst" "$flangsetup" "$flanguninst"
+rm -f "$flanginst" "$flangsetup"
 
 cat tools/psi_lang.map | grep -E 'Lang.*	LANG' | sort | while read -r ldesc; do
 	#<key>,<SectionName>,<LanguageID>,<LanguageName>
@@ -69,11 +68,6 @@ Section /o \"${lang_name}\" $lang_section
 	echo "SectionEnd"
 ) >> "${flanginst}"
 
-	echo "	Delete \"\$INSTDIR\\${lang_file}\"" >> "${flanguninst}"
-	if [ -f "$QM_DIR/qt_${lang_key}.qm" ]; then
-		echo "	Delete \"\$INSTDIR\\qt_${lang_key}.qm\"" >> "${flanguninst}"
-	fi
-
 	# psi_lang_setup.nsh
 	if [ -n "$lang_id" ]; then
 		echo "
@@ -89,17 +83,11 @@ done
 # Now lets generate everything else
 
 out_inst="${BUILD_DIR}/psi_files_install.nsh"
-out_uninst="${BUILD_DIR}/psi_files_uninstall.nsh"
 
 echo ";
 ; List of files to be INSTALLED (Base section)
 ;
 " > $out_inst
-
-echo ";
-; List of files to be UNINSTALLED (Base section)
-;
-" > $out_uninst
 
 directories="$(find "$PSI_DIR" ! -path . -type d -printf "%P\n")"
 win_psi_dir="$(cygpath -pw "$PSI_DIR")"
@@ -112,7 +100,6 @@ win_psi_dir="$(cygpath -pw "$PSI_DIR")"
 		last_dn="$dn"
 	fi
 	echo "File \"\${APP_SOURCE}\\${winf}\"" >> $out_inst
-	echo "	Delete \"\$INSTDIR\\$winf\"" >> $out_uninst
 done)
 
 
