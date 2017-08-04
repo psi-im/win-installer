@@ -61,12 +61,14 @@ cat tools/psi_lang.map | grep -E 'Lang.*	LANG' | sort | while read -r ldesc; do
 ; ${lang_name}
 Section /o \"${lang_name}\" $lang_section
 	SetOverwrite on
+	!insertmacro UNINSTLOG_OPENINSTALL
 	\${SetOutPath} \"\$INSTDIR\\translations\\\"
-	\${File} \"\${APP_BUILD}psi_lang\${FILE_SEPARATOR}${lang_file}\""
+	\${File} \"\${APP_BUILD}psi_lang\${FILE_SEPARATOR}\" \"${lang_file}\""
 	if [ -f "$QM_DIR/qt_${lang_key}.qm" ]; then
-		echo "	\${File} \"\${APP_BUILD}psi_lang\${FILE_SEPARATOR}qt_${lang_key}.qm\""
+		echo "	\${File} \"\${APP_BUILD}psi_lang\${FILE_SEPARATOR}\" \"qt_${lang_key}.qm\""
 	fi
-	echo "SectionEnd"
+	echo "	!insertmacro UNINSTLOG_CLOSEINSTALL
+SectionEnd"
 ) >> "${flanginst}"
 
 	# psi_lang_setup.nsh
@@ -93,9 +95,9 @@ echo ";
 
 directories=$(cd "$PSI_DIR"; find -path './myspell/dicts' -prune -o -path './translations' -prune -o -type d -printf '%P\n')
 echo "\${SetOutPath} \$INSTDIR" >> $out_inst
-( cd "$PSI_DIR"; find -maxdepth 1 -type f -printf '%P\n' | sed 's|.*|${File} "${APP_SOURCE}\0"|' ) >> $out_inst
+( cd "$PSI_DIR"; find -maxdepth 1 -type f -printf '%P\n' | sed 's|.*|${File} "${APP_SOURCE}${FILE_SEPARATOR}" "\0"|' ) >> $out_inst
 for dir in $directories; do
-	files="$(cd "$PSI_DIR"; find $dir -maxdepth 1 -type f | while read -r f; do echo "\${File} \"\${APP_SOURCE}${f//\//\${FILE_SEPARATOR\}}\""; done)"
+	files="$(cd "$PSI_DIR"; find $dir -maxdepth 1 -type f | while read -r f; do d="$(dirname "$f")"; n="$(basename "$f")"; echo "\${File} \"\${APP_SOURCE}\${FILE_SEPARATOR}${d//\//\${FILE_SEPARATOR\}}\${FILE_SEPARATOR}\" \"$n\""; done)"
 	if [ -n "$files" ]; then
 		echo "\${SetOutPath} \"\$INSTDIR\${FILE_SEPARATOR}${dir//\//\${FILE_SEPARATOR\}}\"" >> $out_inst
 		echo "$files" >> $out_inst
@@ -126,11 +128,13 @@ cat tools/spell_lang.map | grep -E 'Lang.*	LANG' | sort | while read -r ldesc; d
 	(echo "
 ; ${lang_name}
 Section /o \"${lang_name}\" $lang_section
+	!insertmacro UNINSTLOG_OPENINSTALL
 	SetOverwrite on
 	\${SetOutPath} \"\$INSTDIR\${FILE_SEPARATOR}myspell\${FILE_SEPARATOR}dicts\${FILE_SEPARATOR}\"
-	\${File} \"\${APP_SOURCE}myspell\${FILE_SEPARATOR}dicts\${FILE_SEPARATOR}${lang_key}.dic\"
-	\${File} \"\${APP_SOURCE}myspell\${FILE_SEPARATOR}dicts\${FILE_SEPARATOR}${lang_key}.aff\""
-	echo "SectionEnd"
+	\${File} \"\${APP_SOURCE}\${FILE_SEPARATOR}myspell\${FILE_SEPARATOR}dicts\${FILE_SEPARATOR}\" \"${lang_key}.dic\"
+	\${File} \"\${APP_SOURCE}\${FILE_SEPARATOR}myspell\${FILE_SEPARATOR}dicts\${FILE_SEPARATOR}\" \"${lang_key}.aff\""
+	echo "	!insertmacro UNINSTLOG_CLOSEINSTALL
+SectionEnd"
 ) >> "${spell_inst}"
 
 	# psi_lang_setup.nsh
