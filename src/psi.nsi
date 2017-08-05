@@ -72,14 +72,15 @@ VIAddVersionKey SpecialBuild "Build number: ${INSTALLER_BUILD}"
 VIProductVersion "${APPVERSION}.0.${INSTALLER_BUILD}"
 
 SetCompressor lzma
-
-; to uninstall only installed files
-!include "UninstallLog.nsh"
+;SetCompress off
 
 Var DONE_INIT
 Var RUN_BY_ADMIN
 Var INST_CONTEXT
 Var REG_ROOT
+
+; to uninstall only installed files
+!include "UninstallLog.nsh"
 
 Var LSTR_SHORTCUTS
 Var LSTR_CURRENTUSER
@@ -196,7 +197,7 @@ UNINSTPAGE custom un.InitRoutines
 
 ; macro for creating urls
 !Macro "CreateURL" "URLFile" "URLSite"
-${AddItem} "$INSTDIR\${URLFile}.URL"
+${AddItemAlways} "$INSTDIR\${URLFile}.URL"
 WriteIniStr "$INSTDIR\${URLFile}.URL" "InternetShortcut" "URL" "${URLSite}"
 !macroend
 ;--------------------------------
@@ -225,6 +226,7 @@ Section "" SectionBase
   SectionIn RO
   !insertmacro UNINSTLOG_OPENINSTALL
   ; Set Section Files and Shortcuts
+  ${AddItemAlways} "$INSTDIR"
   !include "${APP_BUILD}psi_files_install.nsh"
   ${SetOutPath} "$INSTDIR\"
 
@@ -303,7 +305,7 @@ Section "" SectionAutomaticStartup
   SetShellVarContext current
   !insertmacro UNINSTLOG_OPENINSTALL
   ${SetOutPath} "$INSTDIR\"
-  ${CreateShortcut} "$SMSTARTUP\Psi.lnk" "$INSTDIR\Psi.exe" "" "" 0
+  ${CreateShortcut} "$SMSTARTUP\Psi.lnk" "$INSTDIR\Psi.exe" "" "$INSTDIR\Psi.exe" 0
 ;  ${WriteRegStr} HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "Psi" "$INSTDIR\Psi.exe"
 ;  ^ doesn't work - Psi is not started with the correct working dir
   !insertmacro UNINSTLOG_CLOSEINSTALL
@@ -315,15 +317,15 @@ Section -FinishSection
   ${WriteRegStr} HKCU "${REG_APP_PATH}" "" "$INSTDIR"
   ${WriteRegStr} HKCU "${REG_APP_PATH}" "Version" "${APPFULLVERSION}"
   ${WriteRegStr} HKCU "${REG_UNINSTALL_PATH}" "DisplayName" "${APPNAME} (remove only)"
-  ${WriteRegStr} HKCU "${REG_UNINSTALL_PATH}" "DisplayIcon" "$INSTDIR\Psi.exe"
-  ${WriteRegStr} HKCU "${REG_UNINSTALL_PATH}" "UninstallString" "$INSTDIR\uninstall.exe"
+  ${WriteRegStr} HKCU "${REG_UNINSTALL_PATH}" "DisplayIcon" "$\"$INSTDIR\Psi.exe$\""
+  ${WriteRegStr} HKCU "${REG_UNINSTALL_PATH}" "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
   Goto lastsettings_done
  lastsettings_is_admin:
   ${WriteRegStr} HKLM "${REG_APP_PATH}" "" "$INSTDIR"
   ${WriteRegStr} HKLM "${REG_APP_PATH}" "Version" "${APPFULLVERSION}"
   ${WriteRegStr} HKLM "${REG_UNINSTALL_PATH}" "DisplayName" "${APPNAME} (remove only)"
-  ${WriteRegStr} HKLM "${REG_UNINSTALL_PATH}" "DisplayIcon" "$INSTDIR\Psi.exe"
-  ${WriteRegStr} HKLM "${REG_UNINSTALL_PATH}" "UninstallString" "$INSTDIR\uninstall.exe"
+  ${WriteRegStr} HKLM "${REG_UNINSTALL_PATH}" "DisplayIcon" "$\"$INSTDIR\Psi.exe$\""
+  ${WriteRegStr} HKLM "${REG_UNINSTALL_PATH}" "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
 
  lastsettings_done:
  ${WriteUninstaller} "$INSTDIR\uninstall.exe"
@@ -388,6 +390,7 @@ Function InitRoutines
 FunctionEnd
 
 Function .onInit
+  SetRegView 64
 ; permit the user to choose the installer language
 ; the setting will be used to automatically select a language pack if availaible
   !insertmacro MUI_LANGDLL_DISPLAY
@@ -478,16 +481,6 @@ Function un.InitRoutines
 
  !insertmacro INIT_LANG_STRINGS
  
- Call un.IsUserAdmin
-  Pop $R0
-  StrCmp $R0 "true" uninstall_is_admin
-   StrCpy $REG_ROOT "HKCU"
-   Goto uninstall_done
-  uninstall_is_admin:
-   StrCpy $REG_ROOT "HKLM"
-  uninstall_done:
-
-
 ; allow only one instance of the uninstaller
   System::Call 'kernel32::CreateMutexA(i 0, i 0, t "psi${APPFULLVERSION}-uninstaller") i .r1 ?e'
   Pop $R0
@@ -501,6 +494,17 @@ Function un.InitRoutines
 FunctionEnd
 
 Function un.onInit
+  SetRegView 64
+  
+  Call un.IsUserAdmin
+  Pop $R0
+  StrCmp $R0 "true" uninstall_is_admin
+   StrCpy $REG_ROOT "HKCU"
+   Goto uninstall_done
+  uninstall_is_admin:
+   StrCpy $REG_ROOT "HKLM"
+  uninstall_done:
+
 ; ****************
   ;uninstall saved language setting
   !insertmacro MUI_UNGETLANGUAGE

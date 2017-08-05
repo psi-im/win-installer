@@ -78,7 +78,7 @@ ${UnStrTok}
 !macro AddItemAlways Path
 push $UninstLogAlwaysLog
 StrCpy $UninstLogAlwaysLog "1"
-!insertmacro AddItem ${Path}
+!insertmacro AddItem "${Path}"
 pop $UninstLogAlwaysLog
 !macroend
  
@@ -487,8 +487,6 @@ pop $R3
   Pop $R1
   Pop $R0
   Pop $1
-  
-  MessageBox MB_OK "Finished"
  
   ;Remove registry keys
     ;DeleteRegKey ${REG_ROOT} "${REG_APP_PATH}"
