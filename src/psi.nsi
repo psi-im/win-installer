@@ -196,8 +196,8 @@ UNINSTPAGE custom un.InitRoutines
 
 ; macro for creating urls
 !Macro "CreateURL" "URLFile" "URLSite"
-WriteIniStr "$INSTDIR\${URLFile}.URL" "InternetShortcut" "URL" "${URLSite}"
 ${AddItem} "$INSTDIR\${URLFile}.URL"
+WriteIniStr "$INSTDIR\${URLFile}.URL" "InternetShortcut" "URL" "${URLSite}"
 !macroend
 ;--------------------------------
 
@@ -315,12 +315,14 @@ Section -FinishSection
   ${WriteRegStr} HKCU "${REG_APP_PATH}" "" "$INSTDIR"
   ${WriteRegStr} HKCU "${REG_APP_PATH}" "Version" "${APPFULLVERSION}"
   ${WriteRegStr} HKCU "${REG_UNINSTALL_PATH}" "DisplayName" "${APPNAME} (remove only)"
+  ${WriteRegStr} HKCU "${REG_UNINSTALL_PATH}" "DisplayIcon" "$INSTDIR\Psi.exe"
   ${WriteRegStr} HKCU "${REG_UNINSTALL_PATH}" "UninstallString" "$INSTDIR\uninstall.exe"
   Goto lastsettings_done
  lastsettings_is_admin:
   ${WriteRegStr} HKLM "${REG_APP_PATH}" "" "$INSTDIR"
   ${WriteRegStr} HKLM "${REG_APP_PATH}" "Version" "${APPFULLVERSION}"
   ${WriteRegStr} HKLM "${REG_UNINSTALL_PATH}" "DisplayName" "${APPNAME} (remove only)"
+  ${WriteRegStr} HKLM "${REG_UNINSTALL_PATH}" "DisplayIcon" "$INSTDIR\Psi.exe"
   ${WriteRegStr} HKLM "${REG_UNINSTALL_PATH}" "UninstallString" "$INSTDIR\uninstall.exe"
 
  lastsettings_done:
