@@ -209,15 +209,14 @@ WriteIniStr "$INSTDIR\${URLFile}.URL" "InternetShortcut" "URL" "${URLSite}"
 ; Test if Visual Studio Redistributables 2015 v14.0.23918 installed
 ; Returns -1 if there is no VC redistributables intstalled
 Function CheckVCRedist
-   Push $R0
    ClearErrors
-   ReadRegDword $R0 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{5DFEB60C-501E-375A-9967-99BBCB6150C5}" "Version"
+   ReadRegDword $R0 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{7B50D081-E670-3B43-A460-0E2CDB5CE984}" "Version"
 
    IfErrors 0 VSRedistInstalled
    StrCpy $R0 "-1"
 
 VSRedistInstalled:
-   Exch $R0
+   Push $R0
 FunctionEnd
 
 Section "" SectionBase
@@ -229,10 +228,10 @@ Section "" SectionBase
   ${AddItemAlways} "$INSTDIR"
   !include "${APP_BUILD}psi_files_install.nsh"
   ${SetOutPath} "$INSTDIR\"
-
+  
   Call CheckVCRedist
+  Pop $R0
   ${If} $R0 == "-1"
-    ${File} "${APP_SOURCE}\" "vcredist_x64.exe"
     ExecWait '"$INSTDIR\vcredist_x64.exe"  /passive /norestart'
     IfErrors 0 noError
       MessageBox MB_OK "$LSTR_WARN_VCREDIST"
